@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-container":"#586377","tertiary-container":"#646e7d","text-muted":"#9ca3af","surface-dim":"#d9dadb","primary":"#004ac6","background":"#f8f9fa","secondary-container":"#d5e0f8","surface-container-high":"#e7e8e9","on-tertiary-fixed-variant":"#3e4755","outline":"#737686","on-secondary":"#ffffff","on-background":"#191c1d","on-tertiary":"#ffffff","error-container":"#ffdad6","secondary-fixed-dim":"#bcc7de","status-failed-bg":"#fef2f2","on-primary-container":"#eeefff","inverse-on-surface":"#f0f1f2","inverse-surface":"#2e3132","tertiary-fixed-dim":"#bdc7d8","secondary-fixed":"#d8e3fb","status-failed-border":"#fecaca","surface":"#f8f9fa","on-tertiary-container":"#e9f1ff","surface-bright":"#f8f9fa","surface-container-highest":"#e1e3e4","surface-container-low":"#f3f4f5","surface-card":"#ffffff","inverse-primary":"#b4c5ff","status-pending-text":"#2563eb","on-primary-fixed":"#00174b","text-primary":"#111827","border-strong":"#d1d5db","surface-container":"#edeeef","border-subtle":"#e5e7eb","surface-tint":"#0053db","on-primary":"#ffffff","on-surface":"#191c1d","secondary":"#545f73","status-pending-border":"#bfdbfe","on-primary-fixed-variant":"#003ea8","outline-variant":"#c3c6d7","surface-container-lowest":"#ffffff","on-error-container":"#93000a","on-secondary-fixed":"#111c2d","status-ready-bg":"#ecfdf5","status-pending-bg":"#eff6ff","on-surface-variant":"#434655","primary-container":"#2563eb","tertiary-fixed":"#d9e3f4","on-tertiary-fixed":"#121c28","tertiary":"#4c5664","error":"#ba1a1a","status-ready-text":"#059669","on-secondary-fixed-variant":"#3c475a","primary-fixed":"#dbe1ff","status-failed-text":"#dc2626","on-error":"#ffffff","status-ready-border":"#a7f3d0","primary-fixed-dim":"#b4c5ff","surface-variant":"#e1e3e4"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-sm":"0.5rem","space-md":"0.75rem","gutter-lg":"1.5rem","space-2xl":"2rem","margin-lg":"2rem","space-xs":"0.25rem","margin":"1rem","space-lg":"1rem","gutter":"1rem","margin-md":"1.5rem","space-xl":"1.5rem"},fontFamily:{"body-sm":["Inter"],"headline-sm":["Inter"],"body-md":["Inter"],"title-md":["Inter"],"headline-lg":["Inter"],"headline-lg-mobile":["Inter"],"label-md":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"],"body-lg":["Inter"]},fontSize:{"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-md":["14px",{lineHeight:"22px",fontWeight:"400"}],"title-md":["15px",{lineHeight:"22px",letterSpacing:"-0.005em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"500"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"body-lg":["15px",{lineHeight:"24px",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface-card border-b border-border-subtle z-50 flex items-center justify-between px-gutter-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="ResearchOS Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UJqa8HY2iwnBLEBHLrgk_K_0HfH2stLQOwGAV4XMf3MbuGLmEE2Gs4wGw7jsyGKEAZ51cZ-qnU2cSIpFSg7Qtr5TxcmBzqGvAzT0qLHeazSfuDehtLm-W3Mp_g2pW8NW7hAaW09yP_fs3TlWDbvL8oZCRdzkPqy8NiL1uMQNwOqer-LRvaLjKKRFLGAlKqOO_GxcUM33ZkTCYJj6bGdhoa1FGbtVETt4IoKJQ1bdYMWCAJrPFRQFgiSZo"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">ResearchOS</span><span class="bg-surface-container-low border border-border-subtle text-secondary font-label-sm text-label-sm px-1.5 py-0.5 rounded">v1.4 Academic Core</span></div><div class="h-5 w-px bg-border-subtle hidden lg:block"></div><div class="hidden lg:flex items-center gap-space-sm"><button class="flex items-center gap-space-sm bg-surface-container-low hover:bg-surface-container hover:text-on-surface px-space-md py-1.5 rounded border border-border-subtle text-left transition-colors" type="button"><span class="material-symbols-outlined text-secondary text-base">science</span><div class="flex items-center gap-space-xs"><span class="font-title-md text-title-md text-text-primary max-w-[210px] truncate">Neural-Symbolic Synthesis in LLMs</span><span class="bg-status-ready-bg text-status-ready-text border border-status-ready-border font-label-sm text-label-sm px-1.5 py-0.2 rounded">12 Papers</span></div><span class="material-symbols-outlined text-secondary text-base">expand_more</span></button><button class="flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md px-2 py-1.5 rounded hover:bg-primary-fixed/20 transition-colors" type="button"><span class="material-symbols-outlined text-base">add</span><span>Create Project</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center bg-surface-container-low border border-border-subtle rounded px-space-md py-1.5 w-64 lg:w-80 gap-space-sm text-secondary"><span class="material-symbols-outlined text-base">search</span><span class="font-body-sm text-body-sm text-text-muted flex-1 select-none">Search literature, vectors, entities...</span><kbd class="bg-surface-card border border-border-subtle font-label-sm text-label-sm px-1.5 py-0.5 rounded text-secondary">⌘K</kbd></div><div class="hidden xl:flex items-center gap-1.5 bg-status-ready-bg border border-status-ready-border text-status-ready-text px-space-sm py-1 rounded font-label-md text-label-md"><span class="w-2 h-2 rounded-full bg-status-ready-text animate-pulse"></span><span>API Connected: localhost:8000</span></div><a class="hidden sm:inline-flex text-secondary hover:text-text-primary font-label-md text-label-md px-2 py-1" href="#">Docs</a><div class="h-5 w-px bg-border-subtle hidden sm:block"></div><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-border-subtle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkKQKHUm8VNSo671zY8-beJPTGTce4kmf-nUxg334xgZeFdiyb-ENq-ktlaAERorGEgnd9AJryrww8OhVqe4tDvlMciFBM1rlFkhaZbX6UxQtS7a_PWnsI5aPZf9oHDOt4yK4neBeGSgS6cw8pA2fnLxmh3NTQFWT1Hiewc33hoDmmb7TjksGZx-ChhYwUq0YQmHHhAVb6_Xm-gTopjUpGn3_Rpj7NbvX2_CO-WBqbaoZ_JfUoSGdf"/><div class="hidden md:flex flex-col text-left leading-tight"><span class="font-title-md text-title-md text-text-primary">Dr. Anya Sharma</span><span class="font-label-sm text-label-sm text-text-muted">Research Fellow</span></div><button class="text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container-low transition-colors" title="Settings" type="button"><span class="material-symbols-outlined text-lg">settings</span></button><button class="hidden sm:inline-flex text-error hover:text-on-error-container hover:bg-error-container/40 font-label-md text-label-md px-space-sm py-1 rounded transition-colors" type="button">Log out</button></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-card border-r border-border-subtle z-40 flex flex-col justify-between overflow-y-auto"><div class="p-space-md"><div class="px-space-sm py-space-xs mb-space-xs"><span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Workspace Navigation</span></div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-medium shadow-sm"><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="papers-library" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">menu_book</span><span class="font-body-md text-body-md">Papers Library</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-high text-secondary">12</span></a><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="research-assistant" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">neurology</span><span class="font-body-md text-body-md">Research Assistant</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container">RAG</span></a><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="literature-review" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">auto_stories</span><span class="font-body-md text-body-md">Literature Review</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-high text-secondary">Synthesis</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-2 rounded transition-colors bg-primary-container text-on-primary font-medium shadow-sm" data-path="gap-analysis" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">radar</span><span class="font-body-md text-body-md">Gap Analysis</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-high text-secondary">Novelty</span></a><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="project-analytics" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">analytics</span><span class="font-body-md text-body-md">Project Analytics</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">pgvector</span></a></nav></div><div class="p-space-md border-t border-border-subtle bg-surface-container-low/50 flex flex-col gap-space-md"><div class="flex flex-col gap-1.5"><div class="flex items-center justify-between text-secondary font-label-sm text-label-sm"><span>Index Capacity</span><span class="font-medium text-text-primary">84% Indexed</span></div><div class="w-full bg-surface-container-high h-1.5 rounded overflow-hidden"><div class="bg-primary h-full w-[84%]"></div></div><span class="font-label-sm text-label-sm text-text-muted">14,280 Chunks Embedded</span></div><div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm px-space-sm py-1 bg-surface-card border border-border-subtle rounded"><span class="material-symbols-outlined text-base text-status-ready-text">key</span><span class="truncate">Bearer Token Active</span></div><button class="w-full flex items-center justify-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary font-title-md text-title-md py-2 px-space-md rounded shadow-sm transition-colors" type="button"><span class="material-symbols-outlined text-base">upload_file</span><span>+ Upload PDF</span></button></div></aside><div class="pl-64"><main class="w-full pt-16 min-h-screen p-6"><div class="w-full min-h-[calc(100vh-64px-48px)] bg-surface-card border border-border-subtle rounded-lg p-6"><div class="flex flex-col w-full">
+<!-- Top Query & Context Header Bar -->
+<section class="bg-surface-container-low rounded-xl p-space-xl shadow-sm mb-space-2xl relative overflow-hidden">
+<div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-primary-fixed/30 blur-3xl pointer-events-none"></div>
+<div class="absolute right-64 -bottom-20 w-64 h-64 rounded-full bg-secondary-container/40 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-primary-container text-on-primary">
+<span class="material-symbols-outlined text-base">radar</span>
+</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Novelty & Disruption Engine</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Research Gap & Novelty Explorer</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">
+            Discover unexplored intersections, unvalidated hypotheses, and high-impact research directions from your corpus.
+          </p>
+</div>
+<!-- Metric pill summary -->
+<div class="flex items-center gap-space-md bg-surface-card px-space-md py-space-sm rounded-lg shadow-sm self-start md:self-auto">
+<div class="flex items-center gap-1.5 text-secondary font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-status-ready-text"></span>
+<span>Corpus Status:</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-text-primary">
+            12 papers · 412 chunks · 84 claims
+          </span>
+</div>
+</div>
+<!-- Query Form -->
+<form class="flex flex-col lg:flex-row items-stretch gap-space-sm bg-surface-card p-space-sm rounded-lg shadow-sm" id="gap-search-form" onsubmit="event.preventDefault(); triggerAnalysis();">
+<div class="relative flex-1 flex items-center">
+<span class="material-symbols-outlined absolute left-space-md text-secondary text-lg">auto_awesome</span>
+<input class="w-full bg-transparent pl-11 pr-space-md py-2.5 font-body-md text-body-md text-text-primary placeholder-text-muted focus:outline-none" id="query-input" placeholder="Specify research frontier or intersection query..." type="text" value="Safety boundaries and formal boundary verification in autonomous tool-augmented LLM agents"/>
+</div>
+<div class="flex items-center gap-space-xs self-end lg:self-auto w-full lg:w-auto">
+<button class="w-full lg:w-auto flex items-center justify-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary font-title-md text-title-md px-space-xl py-2.5 rounded-lg shadow-sm transition-all duration-150 active:scale-[0.99]" id="run-btn" type="submit">
+<span class="material-symbols-outlined text-base animate-pulse">magic_button</span>
+<span>Run Gap Analysis</span>
+</button>
+</div>
+</form>
+<!-- Sub-query metrics / quick telemetry chips -->
+<div class="flex flex-wrap items-center gap-space-sm text-secondary font-body-sm text-body-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-text-muted">Synthesis Filters:</span>
+<button class="bg-surface-card hover:bg-surface-container px-space-sm py-0.5 rounded text-secondary font-label-sm text-label-sm transition-colors" type="button">
+          Formal Methods ∩ Tool Use
+        </button>
+<button class="bg-surface-card hover:bg-surface-container px-space-sm py-0.5 rounded text-secondary font-label-sm text-label-sm transition-colors" type="button">
+          Latency Threshold <50ms
+        </button>
+<button class="bg-surface-card hover:bg-surface-container px-space-sm py-0.5 rounded text-secondary font-label-sm text-label-sm transition-colors" type="button">
+          Z3 SMT Solvers
+        </button>
+<span class="ml-auto text-text-muted font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+          Last indexed run: 14 mins ago
+        </span>
+</div>
+</div>
+</section>
+<!-- Interactive Visual Overview: Gap-to-Opportunity Matrix -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-space-md mb-space-2xl">
+<div class="bg-surface-card rounded-lg p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Unclaimed White Space</span>
+<span class="material-symbols-outlined text-error text-base">track_changes</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-lg text-headline-lg text-text-primary">31.4%</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">High unexplored vector divergence</p>
+</div>
+<!-- Sparkline svg -->
+<svg class="w-full h-7 text-error" fill="none" preserveaspectratio="none" viewbox="0 0 100 24">
+<path d="M0 20 L20 18 L40 21 L60 9 L80 14 L100 4" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0 20 L20 18 L40 21 L60 9 L80 14 L100 4 L100 24 L0 24 Z" fill="currentColor" fill-opacity="0.08"></path>
+</svg>
+</div>
+<div class="bg-surface-card rounded-lg p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Formal Rigor Gap</span>
+<span class="material-symbols-outlined text-status-pending-text text-base">rule</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-lg text-headline-lg text-text-primary">9 / 12</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Papers lack verified proofs</p>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[75%] rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-card rounded-lg p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Max Potential Index</span>
+<span class="material-symbols-outlined text-status-ready-text text-base">trending_up</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-lg text-headline-lg text-text-primary">9.4<span class="font-body-sm text-body-sm text-text-muted">/10</span></div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">SMT guardrail execution direction</p>
+</div>
+<svg class="w-full h-7 text-status-ready-text" fill="none" preserveaspectratio="none" viewbox="0 0 100 24">
+<path d="M0 22 L25 19 L50 14 L75 8 L100 2" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0 22 L25 19 L50 14 L75 8 L100 2 L100 24 L0 24 Z" fill="currentColor" fill-opacity="0.1"></path>
+</svg>
+</div>
+<div class="bg-surface-card rounded-lg p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Cross-Domain Bridges</span>
+<span class="material-symbols-outlined text-primary text-base">hub</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-lg text-headline-lg text-text-primary">6 Nodes</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Automata + Theorem proving + LLM</p>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="w-3 h-3 rounded-full bg-secondary-container"></span>
+<span class="w-3 h-3 rounded-full bg-status-ready-border"></span>
+<span class="w-3 h-3 rounded-full bg-error-container"></span>
+<span class="font-label-sm text-label-sm text-text-muted ml-auto">+3 active seeds</span>
+</div>
+</div>
+</section>
+<!-- Main Two-Column Results Display -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-xl items-start">
+<!-- LEFT COLUMN: Identified Literature Gaps (50%) -->
+<div class="flex flex-col gap-space-lg">
+<div class="flex items-start justify-between pb-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-ping inline-block"></span>
+<h2 class="font-headline-md text-headline-md text-text-primary">Identified Literature Gaps (4)</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            Unaddressed blind spots, methodology limitations, and missing cross-domain intersections.
+          </p>
+</div>
+<button class="text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container-low transition-colors" title="Filter gaps" type="button">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+</div>
+<!-- Gap Card 1 (Critical) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-error-container text-on-error-container font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+            CRITICAL GAP • High Novelty Potential
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">visibility</span>
+            3 Citations Linked
+          </span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Absence of Real-Time Formal Solvers in Dynamic Multi-Turn Tool Loops
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            While Toolformer (Schick et al.) enables self-taught API calling, zero current project literature explores whether external tool outputs can be verified by SMT/SAT solvers within sub-50ms execution loops before feeding back into the prompt context.
+          </p>
+</div>
+<!-- Missing Intersection Box -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Missing Intersection Graph</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium">
+            Toolformer API interleave ∩ Formal SMT verification (Z3) ∩ Real-time execution constraints.
+          </p>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="px-2 py-0.5 rounded bg-surface-card text-secondary font-label-sm text-label-sm">Toolformer (2023)</span>
+<span class="text-text-muted font-label-sm text-label-sm">⟷</span>
+<span class="px-2 py-0.5 rounded bg-surface-card text-secondary font-label-sm text-label-sm">Z3 Solver (de Moura)</span>
+<span class="text-text-muted font-label-sm text-label-sm">⟷</span>
+<span class="px-2 py-0.5 rounded bg-surface-card text-secondary font-label-sm text-label-sm">Sub-50ms Guard</span>
+</div>
+</div>
+<!-- Evidence & Bottom Action -->
+<div class="flex items-center justify-between pt-space-xs border-t border-border-subtle/0">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">Evidenced in corpus by:</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">
+              Vaswani et al. (2017), Schick et al. (2023), Lewis et al. (2020)
+            </span>
+</div>
+<button class="agenda-btn flex items-center gap-1.5 bg-surface-container-low hover:bg-secondary-container text-on-surface font-title-md text-title-md px-space-md py-1.5 rounded transition-colors" onclick="toggleAgenda(this)" type="button">
+<span class="material-symbols-outlined text-base">bookmark_add</span>
+<span>+ Add to Agenda</span>
+</button>
+</div>
+</article>
+<!-- Gap Card 2 (Methodological) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            METHODOLOGICAL GAP
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted">Benchmark Fragility</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Benchmark Saturation on Synthetic Datasets vs. Real Production APIs
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Evaluations across the 12 corpus papers rely heavily on static benchmarks (SVAMP, GSM8K, HotpotQA). Performance under unpredictable, schema-mutating live Web APIs remains unquantified.
+          </p>
+</div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Synthetic vs. Live Environment Coverage</span>
+<span class="font-semibold text-text-primary">8% Real-world</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded overflow-hidden mt-1">
+<div class="bg-error h-full w-[8%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-secondary">Identified in: <strong>Chen et al. (2021)</strong>, <strong>Yao et al. (2022)</strong></span>
+<button class="agenda-btn flex items-center gap-1.5 bg-surface-container-low hover:bg-secondary-container text-on-surface font-title-md text-title-md px-space-md py-1.5 rounded transition-colors" onclick="toggleAgenda(this)" type="button">
+<span class="material-symbols-outlined text-base">bookmark_add</span>
+<span>+ Add to Agenda</span>
+</button>
+</div>
+</article>
+<!-- Gap Card 3 (Theoretical) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            THEORETICAL GAP
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted">Safety Alignment</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Asymmetric Adversarial Robustness in Constitutional Feedback
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Current constitutional AI frameworks prioritize safety alignment during supervised pre-prompting, leaving jailbreak vulnerability windows open during chained tool execution and non-deterministic intermediate states.
+          </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-secondary">Identified in: <strong>Bai et al. (2022)</strong>, <strong>Anthropic Core (2023)</strong></span>
+<button class="agenda-btn flex items-center gap-1.5 bg-surface-container-low hover:bg-secondary-container text-on-surface font-title-md text-title-md px-space-md py-1.5 rounded transition-colors" onclick="toggleAgenda(this)" type="button">
+<span class="material-symbols-outlined text-base">bookmark_add</span>
+<span>+ Add to Agenda</span>
+</button>
+</div>
+</article>
+<!-- Gap Card 4 (Evaluation) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md opacity-90">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-surface-container-high text-secondary font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+            EVALUATION METRIC GAP
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted">Latency-Accuracy Tradeoff</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Absence of Standardized Cost/Verification Pareto Frontiers
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Papers benchmark either task completion rate or tool invocation accuracy, omitting the marginal financial cost and latency expenditure incurred by multi-step iterative self-correction.
+          </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-secondary">Identified in: <strong>Mialon et al. (2023)</strong></span>
+<button class="agenda-btn flex items-center gap-1.5 bg-surface-container-low hover:bg-secondary-container text-on-surface font-title-md text-title-md px-space-md py-1.5 rounded transition-colors" onclick="toggleAgenda(this)" type="button">
+<span class="material-symbols-outlined text-base">bookmark_add</span>
+<span>+ Add to Agenda</span>
+</button>
+</div>
+</article>
+</div>
+<!-- RIGHT COLUMN: Promising Future Directions (50%) -->
+<div class="flex flex-col gap-space-lg">
+<div class="flex items-start justify-between pb-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-status-ready-text inline-block"></span>
+<h2 class="font-headline-md text-headline-md text-text-primary">Promising Future Directions (4)</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            Actionable, publication-worthy experimental designs and research proposals.
+          </p>
+</div>
+<button class="text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container-low transition-colors" title="Export Directions" type="button">
+<span class="material-symbols-outlined text-base">ios_share</span>
+</button>
+</div>
+<!-- Direction Card 1 (Top Recommended) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-status-ready-bg text-status-ready-text font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-status-ready-text"></span>
+            RECOMMENDED EXP • High Feasibility / High Impact
+          </span>
+<span class="bg-primary-fixed/40 text-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-semibold">
+            Score: 9.6
+          </span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Neurosymbolic Guardrail Engine with Incremental SMT Solving
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Construct a lightweight intermediary middleware between LLM token outputs and API calls that translates natural language safety constraints into first-order logic formulas validated via incremental Z3.
+          </p>
+</div>
+<!-- Hypothesized Metrics Grid -->
+<div class="grid grid-cols-2 gap-space-sm bg-surface-container-low rounded-lg p-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Hypothesized Gain</span>
+<span class="font-title-md text-title-md font-bold text-status-ready-text mt-0.5">85% Drop</span>
+<span class="font-body-sm text-body-sm text-secondary">In runtime safety breaches</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Latency Overhead</span>
+<span class="font-title-md text-title-md font-bold text-primary mt-0.5"><15ms</span>
+<span class="font-body-sm text-body-sm text-secondary">Sub-50ms SLA compliant</span>
+</div>
+</div>
+<!-- Proposed Methodology -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Proposed Methodology</span>
+<p class="font-body-sm text-body-sm text-text-primary">
+            Use Bai et al.'s Constitutional dataset as the baseline rule-set and test against modified Toolformer tool environments with mock adversarial API mocks.
+          </p>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-space-sm pt-space-xs flex-wrap">
+<button class="flex-1 flex items-center justify-center gap-1.5 bg-primary hover:bg-primary-container text-on-primary font-title-md text-title-md py-2 px-space-md rounded shadow-sm transition-colors" onclick="openProposalModal()" type="button">
+<span class="material-symbols-outlined text-base">experiment</span>
+<span>Generate Experiment Proposal</span>
+</button>
+<button class="flex items-center gap-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface font-title-md text-title-md py-2 px-space-md rounded transition-colors" onclick="exportGrant()" type="button">
+<span class="material-symbols-outlined text-base">download</span>
+<span>Export Grant</span>
+</button>
+</div>
+</article>
+<!-- Direction Card 2 (Exploratory) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-status-pending-bg text-status-pending-text font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-status-pending-text"></span>
+            EXPLORATORY • Medium Feasibility
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted">pgvector Optimizations</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Adaptive Retrieval Pruning using Dynamic Chunk Entropy
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Implement entropy-based chunk filtering prior to pgvector retrieval ranking to reduce context window pollution by 40% in long-context RAG pipelines.
+          </p>
+</div>
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Projected Context Savings</span>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-primary mt-1">
+<span>Context Pollution Index</span>
+<span class="font-semibold text-status-ready-text">-40.2% Tokens</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded overflow-hidden mt-1">
+<div class="bg-status-ready-text h-full w-[60%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-secondary">Target: RAG Architecture Core</span>
+<button class="flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md px-2 py-1.5 rounded hover:bg-primary-fixed/20 transition-colors" onclick="openProposalModal()" type="button">
+<span>Draft Study Plan</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Direction Card 3 (Benchmark Suite) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            BENCHMARK SUITE • High Community Impact
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted">Evaluation Track</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            API-ChaosBench: Evaluating Resiliency Against Stochastic Tool Failures
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Build an open benchmark simulating network jitter, schema drift, and malicious mock responses for tool-augmented agents to replace fragile static evaluations.
+          </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-secondary">Dataset Spec: 5,000 synthetic endpoints</span>
+<button class="flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md px-2 py-1.5 rounded hover:bg-primary-fixed/20 transition-colors" onclick="openProposalModal()" type="button">
+<span>Generate Dataset Schema</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Direction Card 4 (Formal Integration) -->
+<article class="bg-surface-card rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col gap-space-md opacity-90">
+<div class="flex items-center justify-between gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1.5 bg-surface-container-high text-secondary font-label-sm text-label-sm px-2.5 py-1 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+            THEORETICAL FRAMEWORK
+          </span>
+<span class="font-label-sm text-label-sm text-text-muted">Convergence Proofs</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">
+            Probabilistic Invariant Synthesis for Self-Reflective Agents
+          </h3>
+<p class="font-body-md text-body-md text-secondary mt-2">
+            Define formal temporal logic invariants (LTL) that an agent must verify before and after each multi-agent state transition during cooperative reasoning chains.
+          </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-secondary">Theoretical Foundations</span>
+<button class="flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md px-2 py-1.5 rounded hover:bg-primary-fixed/20 transition-colors" onclick="openProposalModal()" type="button">
+<span>Read Formulation</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</article>
+</div>
+</div>
+<!-- Bottom Synthesis Status & Notification Drawer / Toast Trigger -->
+<div class="fixed bottom-6 right-6 max-w-md bg-inverse-surface text-inverse-on-surface p-space-md rounded-xl shadow-xl z-50 flex items-center justify-between gap-space-md translate-y-24 opacity-0 transition-all duration-300" id="status-toast">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-status-ready-text">check_circle</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-semibold text-inverse-on-surface" id="toast-title">Added to Research Agenda</span>
+<span class="font-body-sm text-body-sm text-text-muted" id="toast-desc">Item saved to active project sprint.</span>
+</div>
+</div>
+<button class="text-text-muted hover:text-inverse-on-surface p-1" onclick="hideToast()" type="button">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+<!-- Proposal Modal Backdrop -->
+<div class="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-50 hidden items-center justify-center p-space-md" id="proposal-modal">
+<div class="bg-surface-card rounded-xl max-w-2xl w-full p-space-xl shadow-xl flex flex-col gap-space-md max-h-[921px] overflow-y-auto">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">auto_stories</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Generated Experiment Protocol</h3>
+</div>
+<button class="text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container" onclick="closeProposalModal()" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-lg font-body-sm text-body-sm text-secondary flex flex-col gap-2">
+<div class="font-semibold text-text-primary">Research Question:</div>
+<p>Can real-time SMT verification of intermediary tool calls prevent 95% of state mutations without exceeding a 50ms user-perceived SLA?</p>
+<div class="font-semibold text-text-primary mt-2">Variables:</div>
+<ul class="list-disc pl-5 flex flex-col gap-1 text-secondary">
+<li><strong>Independent:</strong> Verification strategy (Unverified, Post-hoc Regex, Incremental Z3).</li>
+<li><strong>Dependent:</strong> Hallucinated execution rate, P99 API turnaround latency, memory usage.</li>
+</ul>
+<div class="font-semibold text-text-primary mt-2">Milestones:</div>
+<ol class="list-decimal pl-5 flex flex-col gap-1 text-secondary">
+<li>Formalize first-order boundary rules from Constitutional dataset (Weeks 1-2).</li>
+<li>Integrate Z3 C++ bindings into Python async agent loop (Weeks 3-4).</li>
+<li>Benchmark against 1,000 synthetic perturbed API calls (Weeks 5-6).</li>
+</ol>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-1.5 rounded font-title-md text-title-md text-secondary hover:bg-surface-container" onclick="closeProposalModal()" type="button">
+          Close
+        </button>
+<button class="px-space-md py-1.5 rounded font-title-md text-title-md bg-primary hover:bg-primary-container text-on-primary shadow-sm" onclick="showToast('Protocol Saved', 'Synced to Workspace Literature Review'); closeProposalModal();" type="button">
+          Save Protocol to Project
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function triggerAnalysis() {
+    const btn = document.getElementById('run-btn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">refresh</span><span>Synthesizing Corpus...</span>`;
+    btn.classList.add('opacity-80', 'pointer-events-none');
+
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.classList.remove('opacity-80', 'pointer-events-none');
+      showToast('Analysis Refreshed', 'Scanned 12 papers with latest Z3 query vector');
+    }, 1200);
+  }
+
+  function toggleAgenda(btn) {
+    const isAdded = btn.getAttribute('data-added') === 'true';
+    if (!isAdded) {
+      btn.setAttribute('data-added', 'true');
+      btn.classList.remove('bg-surface-container-low', 'hover:bg-secondary-container');
+      btn.classList.add('bg-status-ready-bg', 'text-status-ready-text');
+      btn.innerHTML = `<span class="material-symbols-outlined text-base">check</span><span>In Agenda</span>`;
+      showToast('Added to Agenda', 'Gap queued for subsequent lit review draft.');
+    } else {
+      btn.setAttribute('data-added', 'false');
+      btn.classList.remove('bg-status-ready-bg', 'text-status-ready-text');
+      btn.classList.add('bg-surface-container-low', 'hover:bg-secondary-container');
+      btn.innerHTML = `<span class="material-symbols-outlined text-base">bookmark_add</span><span>+ Add to Agenda</span>`;
+      showToast('Removed from Agenda', 'Gap removed from research queue.');
+    }
+  }
+
+  function exportGrant() {
+    showToast('Grant Outline Exported', 'Downloaded markdown grant specification.');
+  }
+
+  function openProposalModal() {
+    const modal = document.getElementById('proposal-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeProposalModal() {
+    const modal = document.getElementById('proposal-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  function showToast(title, desc) {
+    const toast = document.getElementById('status-toast');
+    document.getElementById('toast-title').textContent = title;
+    document.getElementById('toast-desc').textContent = desc;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      hideToast();
+    }, 3500);
+  }
+
+  function hideToast() {
+    const toast = document.getElementById('status-toast');
+    toast.classList.add('translate-y-24', 'opacity-0');
+    toast.classList.remove('translate-y-0', 'opacity-100');
+  }
+</script></div></main></div></body></html>

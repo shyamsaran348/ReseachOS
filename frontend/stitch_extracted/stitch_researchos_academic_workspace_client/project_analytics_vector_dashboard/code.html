@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-container":"#586377","tertiary-container":"#646e7d","text-muted":"#9ca3af","surface-dim":"#d9dadb","primary":"#004ac6","background":"#f8f9fa","secondary-container":"#d5e0f8","surface-container-high":"#e7e8e9","on-tertiary-fixed-variant":"#3e4755","outline":"#737686","on-secondary":"#ffffff","on-background":"#191c1d","on-tertiary":"#ffffff","error-container":"#ffdad6","secondary-fixed-dim":"#bcc7de","status-failed-bg":"#fef2f2","on-primary-container":"#eeefff","inverse-on-surface":"#f0f1f2","inverse-surface":"#2e3132","tertiary-fixed-dim":"#bdc7d8","secondary-fixed":"#d8e3fb","status-failed-border":"#fecaca","surface":"#f8f9fa","on-tertiary-container":"#e9f1ff","surface-bright":"#f8f9fa","surface-container-highest":"#e1e3e4","surface-container-low":"#f3f4f5","surface-card":"#ffffff","inverse-primary":"#b4c5ff","status-pending-text":"#2563eb","on-primary-fixed":"#00174b","text-primary":"#111827","border-strong":"#d1d5db","surface-container":"#edeeef","border-subtle":"#e5e7eb","surface-tint":"#0053db","on-primary":"#ffffff","on-surface":"#191c1d","secondary":"#545f73","status-pending-border":"#bfdbfe","on-primary-fixed-variant":"#003ea8","outline-variant":"#c3c6d7","surface-container-lowest":"#ffffff","on-error-container":"#93000a","on-secondary-fixed":"#111c2d","status-ready-bg":"#ecfdf5","status-pending-bg":"#eff6ff","on-surface-variant":"#434655","primary-container":"#2563eb","tertiary-fixed":"#d9e3f4","on-tertiary-fixed":"#121c28","tertiary":"#4c5664","error":"#ba1a1a","status-ready-text":"#059669","on-secondary-fixed-variant":"#3c475a","primary-fixed":"#dbe1ff","status-failed-text":"#dc2626","on-error":"#ffffff","status-ready-border":"#a7f3d0","primary-fixed-dim":"#b4c5ff","surface-variant":"#e1e3e4"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-sm":"0.5rem","space-md":"0.75rem","gutter-lg":"1.5rem","space-2xl":"2rem","margin-lg":"2rem","space-xs":"0.25rem","margin":"1rem","space-lg":"1rem","gutter":"1rem","margin-md":"1.5rem","space-xl":"1.5rem"},fontFamily:{"body-sm":["Inter"],"headline-sm":["Inter"],"body-md":["Inter"],"title-md":["Inter"],"headline-lg":["Inter"],"headline-lg-mobile":["Inter"],"label-md":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"],"body-lg":["Inter"]},fontSize:{"body-sm":["13px",{lineHeight:"18px",fontWeight:"400"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-md":["14px",{lineHeight:"22px",fontWeight:"400"}],"title-md":["15px",{lineHeight:"22px",letterSpacing:"-0.005em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"500"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"body-lg":["15px",{lineHeight:"24px",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface-card border-b border-border-subtle z-50 flex items-center justify-between px-gutter-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="ResearchOS Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UJqa8HY2iwnBLEBHLrgk_K_0HfH2stLQOwGAV4XMf3MbuGLmEE2Gs4wGw7jsyGKEAZ51cZ-qnU2cSIpFSg7Qtr5TxcmBzqGvAzT0qLHeazSfuDehtLm-W3Mp_g2pW8NW7hAaW09yP_fs3TlWDbvL8oZCRdzkPqy8NiL1uMQNwOqer-LRvaLjKKRFLGAlKqOO_GxcUM33ZkTCYJj6bGdhoa1FGbtVETt4IoKJQ1bdYMWCAJrPFRQFgiSZo"/><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight">ResearchOS</span><span class="bg-surface-container-low border border-border-subtle text-secondary font-label-sm text-label-sm px-1.5 py-0.5 rounded">v1.4 Academic Core</span></div><div class="h-5 w-px bg-border-subtle hidden lg:block"></div><div class="hidden lg:flex items-center gap-space-sm"><button class="flex items-center gap-space-sm bg-surface-container-low hover:bg-surface-container hover:text-on-surface px-space-md py-1.5 rounded border border-border-subtle text-left transition-colors" type="button"><span class="material-symbols-outlined text-secondary text-base">science</span><div class="flex items-center gap-space-xs"><span class="font-title-md text-title-md text-text-primary max-w-[210px] truncate">Neural-Symbolic Synthesis in LLMs</span><span class="bg-status-ready-bg text-status-ready-text border border-status-ready-border font-label-sm text-label-sm px-1.5 py-0.2 rounded">12 Papers</span></div><span class="material-symbols-outlined text-secondary text-base">expand_more</span></button><button class="flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md px-2 py-1.5 rounded hover:bg-primary-fixed/20 transition-colors" type="button"><span class="material-symbols-outlined text-base">add</span><span>Create Project</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center bg-surface-container-low border border-border-subtle rounded px-space-md py-1.5 w-64 lg:w-80 gap-space-sm text-secondary"><span class="material-symbols-outlined text-base">search</span><span class="font-body-sm text-body-sm text-text-muted flex-1 select-none">Search literature, vectors, entities...</span><kbd class="bg-surface-card border border-border-subtle font-label-sm text-label-sm px-1.5 py-0.5 rounded text-secondary">⌘K</kbd></div><div class="hidden xl:flex items-center gap-1.5 bg-status-ready-bg border border-status-ready-border text-status-ready-text px-space-sm py-1 rounded font-label-md text-label-md"><span class="w-2 h-2 rounded-full bg-status-ready-text animate-pulse"></span><span>API Connected: localhost:8000</span></div><a class="hidden sm:inline-flex text-secondary hover:text-text-primary font-label-md text-label-md px-2 py-1" href="#">Docs</a><div class="h-5 w-px bg-border-subtle hidden sm:block"></div><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-border-subtle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkKQKHUm8VNSo671zY8-beJPTGTce4kmf-nUxg334xgZeFdiyb-ENq-ktlaAERorGEgnd9AJryrww8OhVqe4tDvlMciFBM1rlFkhaZbX6UxQtS7a_PWnsI5aPZf9oHDOt4yK4neBeGSgS6cw8pA2fnLxmh3NTQFWT1Hiewc33hoDmmb7TjksGZx-ChhYwUq0YQmHHhAVb6_Xm-gTopjUpGn3_Rpj7NbvX2_CO-WBqbaoZ_JfUoSGdf"/><div class="hidden md:flex flex-col text-left leading-tight"><span class="font-title-md text-title-md text-text-primary">Dr. Anya Sharma</span><span class="font-label-sm text-label-sm text-text-muted">Research Fellow</span></div><button class="text-secondary hover:text-text-primary p-1 rounded hover:bg-surface-container-low transition-colors" title="Settings" type="button"><span class="material-symbols-outlined text-lg">settings</span></button><button class="hidden sm:inline-flex text-error hover:text-on-error-container hover:bg-error-container/40 font-label-md text-label-md px-space-sm py-1 rounded transition-colors" type="button">Log out</button></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-card border-r border-border-subtle z-40 flex flex-col justify-between overflow-y-auto"><div class="p-space-md"><div class="px-space-sm py-space-xs mb-space-xs"><span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Workspace Navigation</span></div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-medium shadow-sm"><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="papers-library" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">menu_book</span><span class="font-body-md text-body-md">Papers Library</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-high text-secondary">12</span></a><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="research-assistant" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">neurology</span><span class="font-body-md text-body-md">Research Assistant</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container">RAG</span></a><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="literature-review" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">auto_stories</span><span class="font-body-md text-body-md">Literature Review</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-high text-secondary">Synthesis</span></a><a class="flex items-center justify-between px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="gap-analysis" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">radar</span><span class="font-body-md text-body-md">Gap Analysis</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-high text-secondary">Novelty</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-2 rounded transition-colors bg-primary-container text-on-primary font-medium shadow-sm" data-path="project-analytics" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">analytics</span><span class="font-body-md text-body-md">Project Analytics</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">pgvector</span></a></nav></div><div class="p-space-md border-t border-border-subtle bg-surface-container-low/50 flex flex-col gap-space-md"><div class="flex flex-col gap-1.5"><div class="flex items-center justify-between text-secondary font-label-sm text-label-sm"><span>Index Capacity</span><span class="font-medium text-text-primary">84% Indexed</span></div><div class="w-full bg-surface-container-high h-1.5 rounded overflow-hidden"><div class="bg-primary h-full w-[84%]"></div></div><span class="font-label-sm text-label-sm text-text-muted">14,280 Chunks Embedded</span></div><div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm px-space-sm py-1 bg-surface-card border border-border-subtle rounded"><span class="material-symbols-outlined text-base text-status-ready-text">key</span><span class="truncate">Bearer Token Active</span></div><button class="w-full flex items-center justify-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary font-title-md text-title-md py-2 px-space-md rounded shadow-sm transition-colors" type="button"><span class="material-symbols-outlined text-base">upload_file</span><span>+ Upload PDF</span></button></div></aside><div class="pl-64"><main class="w-full pt-16 min-h-screen p-6"><div class="w-full min-h-[calc(100vh-64px-48px)] bg-surface-card border border-border-subtle rounded-lg p-6"><div class="flex flex-col w-full gap-space-xl">
+<!-- Top Header & Global Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg pb-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md">
+<span>PROJECTS</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span>NEURAL-SYMBOLIC SYNTHESIS</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-medium">VECTOR METRICS</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Project Analytics & Vector Index</h1>
+<p class="font-body-md text-body-md text-secondary">
+        Database health, chunk distribution, and knowledge graph metrics for <span class="text-text-primary font-medium italic">“Neural-Symbolic Synthesis in LLMs”</span>
+</p>
+</div>
+<!-- Filters & Action Buttons -->
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="inline-flex p-1 bg-surface-container rounded-lg" id="timeframe-selector">
+<button class="px-space-md py-1 rounded-md text-label-md font-label-md transition-all bg-surface-card text-text-primary shadow-sm font-medium" type="button">All Time</button>
+<button class="px-space-md py-1 rounded-md text-label-md font-label-md transition-all text-secondary hover:text-text-primary" type="button">Last 30 Days</button>
+<button class="px-space-md py-1 rounded-md text-label-md font-label-md transition-all text-secondary hover:text-text-primary" type="button">Active Corpus</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-surface-card text-on-surface hover:bg-surface-container-low transition-colors shadow-sm font-label-md text-label-md font-medium" id="btn-export-json" type="button">
+<span class="material-symbols-outlined text-base text-secondary">download</span>
+<span>Export Analytics JSON</span>
+</button>
+<button class="flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary transition-all shadow-sm font-label-md text-label-md font-medium" id="btn-reindex" type="button">
+<span class="material-symbols-outlined text-base">refresh</span>
+<span>Trigger Re-Index (pgvector)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Re-indexing Alert Banner (Dynamic simulation) -->
+<div class="hidden flex items-center justify-between p-space-md bg-status-pending-bg rounded-lg shadow-sm" id="reindex-banner">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-status-pending-text animate-spin text-lg">sync</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">Syncing Vector Chunks with PostgreSQL HNSW...</span>
+<span class="font-body-sm text-body-sm text-secondary">1,428 vectors processed. Optimizing cosine similarity graph distance.</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-card text-primary px-space-sm py-1 rounded-md shadow-sm">Running Pipeline</span>
+</div>
+<!-- Metric Stat Cards Grid (4 Top Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<!-- Card 1: Total Papers -->
+<div class="flex flex-col justify-between p-space-lg bg-surface-card rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total Papers Indexed</span>
+<span class="font-headline-lg text-headline-lg text-text-primary tracking-tight">12</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-xl">menu_book</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-space-md">
+<!-- Mini Color-coded Status Bar -->
+<div class="w-full h-1.5 rounded-full bg-surface-container flex overflow-hidden">
+<div class="bg-status-ready-text h-full" style="width: 77%;" title="10 Ready"></div>
+<div class="bg-status-pending-text h-full" style="width: 8%;" title="1 Extracting"></div>
+<div class="bg-outline h-full" style="width: 8%;" title="1 Queued"></div>
+<div class="bg-status-failed-text h-full" style="width: 7%;" title="1 Failed"></div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-status-ready-text"></span>10 Ready</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-status-pending-text"></span>1 Ext.</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-status-failed-text"></span>1 Fail</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Vector Chunks -->
+<div class="flex flex-col justify-between p-space-lg bg-surface-card rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Chunks in pgvector</span>
+<span class="font-headline-lg text-headline-lg text-text-primary tracking-tight">412 Chunks</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-xl">layers</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 pt-space-md">
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-primary">grain</span>
+<span>HNSW cosine index (m=16, ef=64)</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted">Avg chunk size 512 tokens</span>
+</div>
+</div>
+<!-- Card 3: Extracted Scientific Entities -->
+<div class="flex flex-col justify-between p-space-lg bg-surface-card rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Extracted Entities</span>
+<span class="font-headline-lg text-headline-lg text-text-primary tracking-tight">1,842</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-xl">hub</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-x-2 gap-y-1 pt-space-md text-secondary font-label-sm text-label-sm">
+<span class="bg-surface-container-low px-1.5 py-0.5 rounded text-text-primary font-medium">428 Methods</span>
+<span class="bg-surface-container-low px-1.5 py-0.5 rounded text-text-primary font-medium">312 Datasets</span>
+<span class="bg-surface-container-low px-1.5 py-0.5 rounded text-text-primary font-medium">610 Concepts</span>
+<span class="text-text-muted">492 Authors</span>
+</div>
+</div>
+<!-- Card 4: Vector Search Latency -->
+<div class="flex flex-col justify-between p-space-lg bg-surface-card rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Search Latency</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-text-primary tracking-tight">18.4 ms</span>
+<span class="font-label-sm text-label-sm text-status-ready-text font-medium flex items-center">
+<span class="material-symbols-outlined text-sm">trending_down</span> -2.1ms
+            </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-xl">speed</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 pt-space-md">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>p95 Latency: 34ms</span>
+<span class="font-medium text-text-primary">1536 dims</span>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted truncate">text-embedding-3-large</span>
+</div>
+</div>
+</div>
+<!-- Main Analytics Content (Two-Column Asymmetric Grid) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left Pane: Corpus Domain & Concept Distribution (5 Columns) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md p-space-lg bg-surface-card rounded-xl shadow-sm">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">pie_chart</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Corpus Distribution</h2>
+<p class="font-body-sm text-body-sm text-secondary">Categorized semantic density across vectors</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-medium">4 Domains</span>
+</div>
+<!-- Domain Distribution Breakdown -->
+<div class="flex flex-col gap-space-md py-space-xs">
+<!-- Category 1 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="font-title-md text-title-md text-text-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Language Model Architectures
+            </span>
+<span class="font-label-md text-label-md text-secondary">38% • 156 chunks</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 38%;"></div>
+</div>
+</div>
+<!-- Category 2 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="font-title-md text-title-md text-text-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span> Neurosymbolic & Formal Methods
+            </span>
+<span class="font-label-md text-label-md text-secondary">27% • 111 chunks</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 27%;"></div>
+</div>
+</div>
+<!-- Category 3 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="font-title-md text-title-md text-text-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Retrieval & Vector Augmentation
+            </span>
+<span class="font-label-md text-label-md text-secondary">21% • 86 chunks</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 21%;"></div>
+</div>
+</div>
+<!-- Category 4 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="font-title-md text-title-md text-text-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-outline"></span> Safety & Constitutional AI
+            </span>
+<span class="font-label-md text-label-md text-secondary">14% • 59 chunks</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 14%;"></div>
+</div>
+</div>
+</div>
+<!-- Vector Visual Graph Simulation & Tags -->
+<div class="mt-space-sm p-space-md bg-surface-container-low rounded-lg flex flex-col gap-space-sm">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Top Recurrent Semantic Concepts</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 bg-surface-card text-text-primary font-label-md text-label-md rounded-md shadow-sm hover:text-primary cursor-pointer transition-colors">Transformers</span>
+<span class="px-2.5 py-1 bg-surface-card text-text-primary font-label-md text-label-md rounded-md shadow-sm hover:text-primary cursor-pointer transition-colors">Self-Supervised Learning</span>
+<span class="px-2.5 py-1 bg-surface-card text-text-primary font-label-md text-label-md rounded-md shadow-sm hover:text-primary cursor-pointer transition-colors">SMT Solvers</span>
+<span class="px-2.5 py-1 bg-surface-card text-text-primary font-label-md text-label-md rounded-md shadow-sm hover:text-primary cursor-pointer transition-colors">Cosine Similarity</span>
+<span class="px-2.5 py-1 bg-surface-card text-text-primary font-label-md text-label-md rounded-md shadow-sm hover:text-primary cursor-pointer transition-colors">Zero-shot Prompting</span>
+<span class="px-2.5 py-1 bg-surface-card text-text-primary font-label-md text-label-md rounded-md shadow-sm hover:text-primary cursor-pointer transition-colors">Chain-of-Thought</span>
+</div>
+</div>
+<!-- Compact Insight Card -->
+<div class="p-space-md bg-surface-container rounded-lg flex items-center gap-space-md mt-auto">
+<span class="material-symbols-outlined text-primary text-2xl">auto_awesome</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">Synthesis Potential: High</span>
+<span class="font-body-sm text-body-sm text-secondary">Cross-references between SMT Solvers and LLM Prompting suggest 4 clear literature gaps.</span>
+</div>
+</div>
+</div>
+<!-- Right Pane: Top Extracted Scientific Entities & Methodologies (7 Columns) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md p-space-lg bg-surface-card rounded-xl shadow-sm">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">dataset</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Scientific Entities & Methodologies</h2>
+<p class="font-body-sm text-body-sm text-secondary">Frequency ranked across the 12 ingested academic PDFs</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary">Showing Top 5</span>
+</div>
+</div>
+<!-- Ranked Table Component -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-md text-label-md">
+<th class="py-2.5 px-space-md rounded-l-lg font-medium">Rank & Entity</th>
+<th class="py-2.5 px-space-md font-medium">Class / Type</th>
+<th class="py-2.5 px-space-md font-medium">Corpus Occurrence</th>
+<th class="py-2.5 px-space-md text-right rounded-r-lg font-medium">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted font-mono w-4">01</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary group-hover:text-primary transition-colors">Toolformer API Interleaving</span>
+<span class="font-label-sm text-label-sm text-secondary">First cited: Schick et al.</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed font-medium">
+                  Algorithm
+                </span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 66%;"></div>
+</div>
+<span class="font-label-md text-label-md text-text-primary font-medium">8 papers</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container hover:bg-primary hover:text-on-primary text-secondary transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span>View Papers</span>
+<span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted font-mono w-4">02</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary group-hover:text-primary transition-colors">Constitutional RLHF</span>
+<span class="font-label-sm text-label-sm text-secondary">First cited: Bai et al.</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary-fixed text-on-secondary-fixed font-medium">
+                  Methodology
+                </span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 50%;"></div>
+</div>
+<span class="font-label-md text-label-md text-text-primary font-medium">6 papers</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container hover:bg-primary hover:text-on-primary text-secondary transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span>View Papers</span>
+<span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted font-mono w-4">03</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary group-hover:text-primary transition-colors">HNSW Indexing</span>
+<span class="font-label-sm text-label-sm text-secondary">First cited: Malkov & Yashunin</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container-high text-secondary font-medium">
+                  Infrastructure
+                </span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 100%;"></div>
+</div>
+<span class="font-label-md text-label-md text-text-primary font-medium">12 papers</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container hover:bg-primary hover:text-on-primary text-secondary transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span>View Papers</span>
+<span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted font-mono w-4">04</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary group-hover:text-primary transition-colors">GSM8K Benchmark</span>
+<span class="font-label-sm text-label-sm text-secondary">First cited: Cobbe et al.</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-medium">
+                  Dataset
+                </span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 42%;"></div>
+</div>
+<span class="font-label-md text-label-md text-text-primary font-medium">5 papers</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container hover:bg-primary hover:text-on-primary text-secondary transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span>View Papers</span>
+<span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted font-mono w-4">05</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary group-hover:text-primary transition-colors">Hallucination Mitigation Rate</span>
+<span class="font-label-sm text-label-sm text-secondary">Evaluated via benchmark synthesis</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary-container text-on-secondary-container font-medium">
+                  Metric
+                </span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%;"></div>
+</div>
+<span class="font-label-md text-label-md text-text-primary font-medium">9 papers</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container hover:bg-primary hover:text-on-primary text-secondary transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span>View Papers</span>
+<span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Graph Grounding Note -->
+<div class="flex items-center justify-between pt-space-xs text-secondary font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-status-ready-text text-sm">verified</span>
+          Verified via cross-corpus co-occurrence index
+        </span>
+<a class="text-primary hover:underline font-medium" href="#">Explore Full Graph Matrix →</a>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Backend API & Storage Health -->
+<div class="flex flex-col gap-space-md p-space-lg bg-surface-card rounded-xl shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">dns</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Backend API & Storage Health</h2>
+<span class="font-label-sm text-label-sm font-mono text-secondary">Endpoint: http://localhost:8000/api/v1</span>
+</div>
+</div>
+<!-- Storage Usage Pill -->
+<div class="flex flex-col md:items-end gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary">Allocated PostgreSQL + pgvector:</span>
+<span class="font-label-md text-label-md text-text-primary font-semibold">128.4 MB / 5.0 GB (2.5%)</span>
+</div>
+<div class="w-56 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-status-ready-text h-full rounded-full" style="width: 2.5%;"></div>
+</div>
+</div>
+</div>
+<!-- API Endpoint Status Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md pt-space-xs">
+<!-- Endpoint 1 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col justify-between gap-space-sm">
+<div class="flex items-start justify-between">
+<span class="font-label-sm text-label-sm font-bold bg-primary-fixed text-on-primary-fixed px-1.5 py-0.5 rounded">GET</span>
+<span class="inline-flex items-center gap-1 text-status-ready-text font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-ready-text"></span> 200 OK
+          </span>
+</div>
+<span class="font-mono font-body-sm text-body-sm text-text-primary truncate">/projects/{id}/papers</span>
+<div class="flex items-center justify-between pt-1 text-secondary font-label-sm text-label-sm">
+<span>Avg response</span>
+<span class="font-mono text-text-primary font-medium">24ms</span>
+</div>
+</div>
+<!-- Endpoint 2 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col justify-between gap-space-sm">
+<div class="flex items-start justify-between">
+<span class="font-label-sm text-label-sm font-bold bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded">POST</span>
+<span class="inline-flex items-center gap-1 text-status-ready-text font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-ready-text"></span> 200 OK
+          </span>
+</div>
+<span class="font-mono font-body-sm text-body-sm text-text-primary truncate">/projects/{id}/assistant/chat</span>
+<div class="flex items-center justify-between pt-1 text-secondary font-label-sm text-label-sm">
+<span>Avg response (streaming)</span>
+<span class="font-mono text-text-primary font-medium">480ms</span>
+</div>
+</div>
+<!-- Endpoint 3 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col justify-between gap-space-sm">
+<div class="flex items-start justify-between">
+<span class="font-label-sm text-label-sm font-bold bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded">POST</span>
+<span class="inline-flex items-center gap-1 text-status-ready-text font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-ready-text"></span> 200 OK
+          </span>
+</div>
+<span class="font-mono font-body-sm text-body-sm text-text-primary truncate">/projects/{id}/reviews</span>
+<div class="flex items-center justify-between pt-1 text-secondary font-label-sm text-label-sm">
+<span>Avg synthesis</span>
+<span class="font-mono text-text-primary font-medium">1.2s</span>
+</div>
+</div>
+<!-- Endpoint 4 -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col justify-between gap-space-sm">
+<div class="flex items-start justify-between">
+<span class="font-label-sm text-label-sm font-bold bg-primary-fixed text-on-primary-fixed px-1.5 py-0.5 rounded">GET</span>
+<span class="inline-flex items-center gap-1 text-status-ready-text font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-ready-text"></span> 200 OK
+          </span>
+</div>
+<span class="font-mono font-body-sm text-body-sm text-text-primary truncate">/projects/{id}/analytics</span>
+<div class="flex items-center justify-between pt-1 text-secondary font-label-sm text-label-sm">
+<span>Avg response</span>
+<span class="font-mono text-text-primary font-medium">18ms</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic Re-indexing button interaction
+  const reindexBtn = document.getElementById('btn-reindex');
+  const reindexBanner = document.getElementById('reindex-banner');
+  const exportBtn = document.getElementById('btn-export-json');
+
+  if (reindexBtn && reindexBanner) {
+    reindexBtn.addEventListener('click', () => {
+      reindexBanner.classList.remove('hidden');
+      reindexBtn.classList.add('opacity-75', 'pointer-events-none');
+      const originalText = reindexBtn.innerHTML;
+      reindexBtn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Re-indexing...</span>';
+
+      setTimeout(() => {
+        reindexBanner.classList.add('hidden');
+        reindexBtn.classList.remove('opacity-75', 'pointer-events-none');
+        reindexBtn.innerHTML = originalText;
+      }, 3500);
+    });
+  }
+
+  // Timeframe selector micro-interaction
+  const timeframeButtons = document.querySelectorAll('#timeframe-selector button');
+  timeframeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      timeframeButtons.forEach(b => {
+        b.className = 'px-space-md py-1 rounded-md text-label-md font-label-md transition-all text-secondary hover:text-text-primary';
+      });
+      btn.className = 'px-space-md py-1 rounded-md text-label-md font-label-md transition-all bg-surface-card text-text-primary shadow-sm font-medium';
+    });
+  });
+
+  // Export JSON notification simulation
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      const originalHtml = exportBtn.innerHTML;
+      exportBtn.innerHTML = '<span class="material-symbols-outlined text-base text-status-ready-text">check</span><span>Exported!</span>';
+      setTimeout(() => {
+        exportBtn.innerHTML = originalHtml;
+      }, 2000);
+    });
+  }
+</script></div></main></div></body></html>
