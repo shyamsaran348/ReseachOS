@@ -5,8 +5,7 @@ import {
   FileText, 
   Sparkles, 
   BarChart3, 
-  UploadCloud,
-  CheckCircle2
+  UploadCloud
 } from 'lucide-react';
 
 export type TabType = 'papers' | 'assistant' | 'review' | 'gap' | 'analytics';
@@ -103,12 +102,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Bottom Action Area */}
-      <div className="p-4 border-t border-border-subtle bg-surface-container-low/40 flex flex-col gap-3">
-        <div className="flex items-center gap-2 text-xs text-text-secondary px-2 py-1.5 bg-surface-card border border-border-subtle rounded-lg">
-          <CheckCircle2 className="w-3.5 h-3.5 text-status-ready-text" />
-          <span className="truncate">pgvector RIE Enabled</span>
-        </div>
-
+      <div className="p-4 border-t border-border-subtle bg-surface-container-low/40">
         <button
           onClick={onOpenUploadModal}
           className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-slate-800 text-white text-xs font-semibold py-2.5 px-3 rounded-lg shadow-sm transition-colors"

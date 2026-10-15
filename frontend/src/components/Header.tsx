@@ -83,9 +83,6 @@ export const Header: React.FC<HeaderProps> = ({
             R
           </div>
           <span className="font-bold text-lg text-text-primary tracking-tight">ResearchOS</span>
-          <span className="bg-surface-container-low border border-border-subtle text-text-secondary text-xs px-2 py-0.5 rounded font-mono">
-            v1.4 Academic Core
-          </span>
         </div>
 
         <div className="h-5 w-px bg-border-subtle hidden md:block" />
@@ -155,14 +152,9 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Right Diagnostic & Profile Section */}
+      {/* Right Profile Section */}
       <div className="flex items-center gap-4">
-        <div className="hidden lg:flex items-center gap-2 bg-status-ready-bg border border-status-ready-border text-status-ready-text px-2.5 py-1 rounded-md text-xs font-medium">
-          <span className="w-2 h-2 rounded-full bg-status-ready-text animate-pulse" />
-          <span>API Connected: localhost:8000</span>
-        </div>
-
-        <div className="flex items-center gap-3 pl-2 border-l border-border-subtle">
+        <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-surface-container-high border border-border-subtle flex items-center justify-center font-bold text-xs text-text-primary">
             {userName ? userName.slice(0, 2).toUpperCase() : 'DR'}
           </div>
