@@ -27,8 +27,8 @@ async def generate_literature_review(
         db=db,
         query=request.topic,
         project_id=str(request.project_id),
-        top_k=25,
-        relevance_threshold=0.5
+        top_k=8,
+        relevance_threshold=0.25
     )
 
     if not relevant_chunks:

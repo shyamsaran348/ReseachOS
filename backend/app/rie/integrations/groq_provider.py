@@ -9,7 +9,7 @@ import json
 logger = logging.getLogger("researchos.rie.groq")
 T = TypeVar("T", bound=BaseModel)
 
-MAX_CHARS = 32000  # ~8k tokens safe limit for Llama 3.3 70B
+MAX_CHARS = 16000  # ~4k tokens to strictly stay within Groq free-tier 7,000 ITPM
 MAX_RETRIES = 3
 RETRY_BASE_DELAY = 2.0  # seconds
 
@@ -68,8 +68,10 @@ class GroqLLMProvider:
         if system_instruction:
             messages.append({"role": "system", "content": system_instruction})
 
+        schema_hint = json.dumps(schema_class.model_json_schema().get("properties", {}))
         json_prompt = (
-            f"{prompt}\n\nIMPORTANT: Respond ONLY with a valid raw JSON object. "
+            f"{prompt}\n\n"
+            f"IMPORTANT: Respond ONLY with a valid raw JSON object strictly conforming to these properties: {schema_hint}. "
             f"Do not include markdown fences ```json or any conversational text."
         )
         messages.append({"role": "user", "content": json_prompt})

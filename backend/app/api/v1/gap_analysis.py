@@ -24,12 +24,13 @@ async def analyze_gaps(
         raise HTTPException(status_code=404, detail="Project not found")
 
     # 1. Retrieve chunks broadly related to the topic focus
+    query_text = request.topic_focus.strip() if request.topic_focus and request.topic_focus.strip() else "key methodologies evaluation limits future work"
     relevant_chunks = await semantic_search_service.retrieve_chunks(
         db=db,
-        query=request.topic_focus,
+        query=query_text,
         project_id=str(request.project_id),
-        top_k=20,
-        relevance_threshold=0.5
+        top_k=8,
+        relevance_threshold=0.25
     )
 
     if not relevant_chunks:
