@@ -14,7 +14,22 @@
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+}
+
+/* Mathematical formula typography (KaTeX) */
+.katex {
+  font-size: 1.05em !important;
+  text-rendering: auto;
+}
+
+.katex-display {
+  margin: 0.85rem 0 !important;
+  padding: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* Custom scrollbars for clean research view */

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { apiRequest } from '../api/client';
 import { LiteratureReviewResponse, Paper } from '../types';
 import { 
@@ -201,6 +203,8 @@ export const LiteratureReview: React.FC<LiteratureReviewProps> = ({ projectId, p
           ) : review ? (
           <div className="prose-review text-text-primary leading-relaxed">
               <ReactMarkdown
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
                 components={{
                   h1: ({ children }) => (
                     <h1 className="text-xl font-bold text-text-primary mt-6 mb-3 pb-2 border-b border-border-subtle">
