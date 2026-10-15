@@ -96,14 +96,14 @@ class PDFExtractionService:
             if not slice_words:
                 break
 
-            chunk_text = " ".join([w[1] for w in slice_words])
+            chunk_text = " ".join([w[1] for w in slice_words]).replace('\x00', '')
             start_page = slice_words[0][0]
             end_page = slice_words[-1][0]
             token_count = len(slice_words)
 
             # Detect potential section title from first 10 words
             first_sentence = chunk_text[:80].strip()
-            section_title = first_sentence.split('\n')[0] if '\n' in first_sentence else "Section"
+            section_title = (first_sentence.split('\n')[0] if '\n' in first_sentence else "Section").replace('\x00', '')
 
             chunks.append(
                 ExtractedChunk(
