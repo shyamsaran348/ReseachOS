@@ -82,7 +82,7 @@ class GroqLLMProvider:
                 messages=messages,
                 temperature=0.1,
                 response_format={"type": "json_object"},
-                max_tokens=4096
+                max_tokens=600  # Groq free-tier OTPM limit = 1000
             )
             raw_json_str = response.choices[0].message.content.strip()
             parsed_dict = json.loads(raw_json_str)
@@ -108,7 +108,7 @@ class GroqLLMProvider:
             model=self.model_name,
             messages=messages,
             temperature=0.3,
-            max_tokens=4096
+            max_tokens=800  # Groq free-tier OTPM limit = 1000
         )
         return response.choices[0].message.content.strip()
 

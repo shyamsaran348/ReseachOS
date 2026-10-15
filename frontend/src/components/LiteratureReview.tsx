@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { apiRequest } from '../api/client';
 import { LiteratureReviewResponse, Paper } from '../types';
 import { 
@@ -198,10 +199,68 @@ export const LiteratureReview: React.FC<LiteratureReviewProps> = ({ projectId, p
               <p className="text-xs text-text-muted">Synthesizing comprehensive review via Groq LLM</p>
             </div>
           ) : review ? (
-            <div className="prose max-w-none text-text-primary leading-relaxed space-y-4">
-              <div className="whitespace-pre-wrap font-sans text-sm">
+          <div className="prose-review text-text-primary leading-relaxed">
+              <ReactMarkdown
+                components={{
+                  h1: ({ children }) => (
+                    <h1 className="text-xl font-bold text-text-primary mt-6 mb-3 pb-2 border-b border-border-subtle">
+                      {children}
+                    </h1>
+                  ),
+                  h2: ({ children }) => (
+                    <h2 className="text-lg font-semibold text-text-primary mt-5 mb-2">
+                      {children}
+                    </h2>
+                  ),
+                  h3: ({ children }) => (
+                    <h3 className="text-base font-semibold text-text-primary mt-4 mb-1.5">
+                      {children}
+                    </h3>
+                  ),
+                  p: ({ children }) => (
+                    <p className="text-sm text-text-primary leading-7 mb-3">
+                      {children}
+                    </p>
+                  ),
+                  strong: ({ children }) => (
+                    <strong className="font-semibold text-text-primary">{children}</strong>
+                  ),
+                  em: ({ children }) => (
+                    <em className="italic text-text-secondary">{children}</em>
+                  ),
+                  ul: ({ children }) => (
+                    <ul className="list-disc list-outside pl-5 mb-3 space-y-1 text-sm text-text-primary">
+                      {children}
+                    </ul>
+                  ),
+                  ol: ({ children }) => (
+                    <ol className="list-decimal list-outside pl-5 mb-3 space-y-1 text-sm text-text-primary">
+                      {children}
+                    </ol>
+                  ),
+                  li: ({ children }) => (
+                    <li className="leading-6">{children}</li>
+                  ),
+                  code: ({ children }) => (
+                    <code className="text-xs bg-surface-container-high text-primary-accent px-1.5 py-0.5 rounded font-mono">
+                      {children}
+                    </code>
+                  ),
+                  blockquote: ({ children }) => (
+                    <blockquote className="border-l-4 border-primary-accent/40 pl-4 my-3 text-text-secondary italic text-sm">
+                      {children}
+                    </blockquote>
+                  ),
+                  hr: () => <hr className="border-border-subtle my-4" />,
+                  a: ({ href, children }) => (
+                    <a href={href} className="text-primary-accent underline underline-offset-2 hover:opacity-80" target="_blank" rel="noopener noreferrer">
+                      {children}
+                    </a>
+                  ),
+                }}
+              >
                 {review.markdown_content}
-              </div>
+              </ReactMarkdown>
 
               {review.cited_paper_ids && review.cited_paper_ids.length > 0 && (
                 <div className="mt-8 pt-4 border-t border-border-subtle">

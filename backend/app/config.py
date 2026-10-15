@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # AI Providers (Free Tier Stack)
     LLM_PROVIDER: str = "groq"
     GROQ_API_KEY: str = ""
-    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+    GROQ_MODEL: str = "qwen/qwen3.8-27b"
     
     # Local Embeddings (Free, runs on CPU/MPS)
     EMBEDDING_PROVIDER: str = "sentence_transformers"

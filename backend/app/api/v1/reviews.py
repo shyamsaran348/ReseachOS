@@ -27,7 +27,7 @@ async def generate_literature_review(
         db=db,
         query=request.topic,
         project_id=str(request.project_id),
-        top_k=8,
+        top_k=4,  # Reduced to stay within Groq free-tier ITPM + OTPM limits
         relevance_threshold=0.25
     )
 
@@ -42,15 +42,16 @@ async def generate_literature_review(
         version = await db.get(PaperVersion, chunk.paper_version_id)
         paper = await db.get(Paper, version.paper_id)
         cited_paper_ids.add(paper.id)
-        context_blocks.append(f"Source [{idx+1}] - {paper.title}:\n{chunk.content}")
+        # Truncate each chunk to ~600 chars to keep total prompt tokens low
+        chunk_text = chunk.content[:600] if len(chunk.content) > 600 else chunk.content
+        context_blocks.append(f"Source [{idx+1}] - {paper.title}:\n{chunk_text}")
         
     context_text = "\n\n".join(context_blocks)
 
     system_instruction = (
-        f"You are an expert academic writer. Write a comprehensive literature review on the provided topic. "
-        f"Synthesize the findings from the provided context. Target audience: {request.target_audience}. "
-        f"Use markdown formatting, including headers and bullet points where appropriate. "
-        f"Cite sources inline using [N] format matching the provided sources."
+        f"You are an expert academic writer. Write a concise but comprehensive literature review (~400 words) on the topic. "
+        f"Synthesize findings from the provided sources. Target audience: {request.target_audience}. "
+        f"Use markdown with ## headers. Cite inline as [N]. Be dense and informative — no filler."
     )
     
     prompt = f"Topic: {request.topic}\n\nSources:\n{context_text}"

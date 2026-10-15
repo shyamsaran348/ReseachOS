@@ -17,7 +17,7 @@ class SemanticSearchService:
         project_id: str, 
         selected_paper_ids: List[str] = None,
         top_k: int = 5,
-        relevance_threshold: float = 0.65
+        relevance_threshold: float = 0.35
     ) -> List[PaperChunk]:
         """
         Retrieves the most semantically relevant paper chunks for a given query.

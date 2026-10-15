@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { apiRequest } from '../api/client';
 import { AssistantChatResponse, Citation, Paper } from '../types';
 import { 
@@ -58,23 +59,32 @@ export const AssistantChat: React.FC<AssistantChatProps> = ({ projectId, papers 
     setLoading(true);
 
     try {
-      const response = await apiRequest<AssistantChatResponse>(
+      const response = await apiRequest<any>(
         `/projects/${projectId}/assistant/chat`,
         {
           method: 'POST',
           body: JSON.stringify({
             query: userMessage.content,
-            scope_type: scopeType,
-            selected_paper_ids: scopeType === 'paper' ? selectedPaperIds : undefined,
+            scope_type: scopeType === 'paper' ? 'SELECTED_PAPERS' : 'ENTIRE_PROJECT',
+            selected_paper_ids: scopeType === 'paper' ? selectedPaperIds : [],
           }),
         }
       );
+
+      // Map backend AssistantCitation to Citation interface
+      const mappedCitations: Citation[] = (response.citations || []).map((c: any, i: number) => ({
+        paper_id: c.paper_id || `cite-${i}`,
+        paper_title: c.paper_title || 'Research Manuscript',
+        chunk_index: c.page_number || 1,
+        text: c.quoted_text || '',
+        score: c.score || undefined,
+      }));
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
         content: response.answer,
-        citations: response.citations,
+        citations: mappedCitations,
         grounded: response.grounded,
       };
 
@@ -140,7 +150,36 @@ export const AssistantChat: React.FC<AssistantChatProps> = ({ projectId, papers 
                     : 'bg-surface-container-low text-text-primary border border-border-subtle'
                 }`}
               >
-                <div className="whitespace-pre-wrap leading-relaxed">{msg.content}</div>
+                {msg.sender === 'user' ? (
+                  <div className="whitespace-pre-wrap leading-relaxed">{msg.content}</div>
+                ) : (
+                  <div className="leading-relaxed prose-chat text-text-primary">
+                    <ReactMarkdown
+                      components={{
+                        h1: ({ children }) => <h1 className="text-base font-bold text-text-primary mt-3 mb-1.5">{children}</h1>,
+                        h2: ({ children }) => <h2 className="text-sm font-bold text-text-primary mt-2.5 mb-1">{children}</h2>,
+                        h3: ({ children }) => <h3 className="text-sm font-semibold text-text-primary mt-2 mb-1">{children}</h3>,
+                        p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+                        strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
+                        ul: ({ children }) => <ul className="list-disc list-outside pl-4 mb-2 space-y-1">{children}</ul>,
+                        ol: ({ children }) => <ol className="list-decimal list-outside pl-4 mb-2 space-y-1">{children}</ol>,
+                        li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                        code: ({ children }) => (
+                          <code className="text-xs bg-surface-container-high text-primary-accent px-1.5 py-0.5 rounded font-mono">
+                            {children}
+                          </code>
+                        ),
+                        blockquote: ({ children }) => (
+                          <blockquote className="border-l-2 border-primary-accent/40 pl-3 my-2 text-text-secondary italic text-xs">
+                            {children}
+                          </blockquote>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
+                )}
 
                 {/* Grounding & Citations Indicator */}
                 {msg.sender === 'assistant' && (

@@ -40,6 +40,7 @@ frontend/dist-ssr/
 .env.local
 .env.*.local
 data/storage/
+backend/data/
 *.db
 *.sqlite
 
