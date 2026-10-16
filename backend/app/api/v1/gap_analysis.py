@@ -47,31 +47,36 @@ async def analyze_gaps(
             ]
         )
 
-    context_blocks = [chunk.content for chunk in relevant_chunks]
+    # Limit chunks and slice content to prevent token overflow on Groq free-tier
+    context_blocks = [chunk.content[:600] for chunk in relevant_chunks[:4]]
     context_text = "\n\n".join(context_blocks)
 
+    topic_str = request.topic_focus.strip() if request.topic_focus and request.topic_focus.strip() else "Cross-cutting research opportunities across project papers"
+
     system_instruction = (
-        "You are a principal investigator and expert research scientist. "
-        "Analyze the provided research context and identify specific gaps in the literature. "
-        "Then, propose future research directions to address these gaps. "
-        "Format your output as JSON with two keys: 'identified_gaps' (list of strings) and 'proposed_directions' (list of strings)."
+        "You are a principal investigator and expert scientific reviewer. "
+        "Analyze the provided academic paper excerpts and identify 3-4 specific gaps in the literature. "
+        "Then propose 3-4 actionable, concrete future research directions or hypotheses to address these gaps. "
+        "Strictly output valid JSON with 'identified_gaps' (list of strings) and 'proposed_directions' (list of strings)."
     )
-    prompt = f"Topic Focus: {request.topic_focus}\n\nContext:\n{context_text}"
-    
-    # Need to extract json using Groq JSON mode (which our provider handles if we pass schemas, but we can just use generate_metadata for now)
-    
-    # We will mock the JSON parsing for this endpoint since groq_provider.generate_metadata is built for this.
+    prompt = f"Target Topic / Perspective: {topic_str}\n\nLiterature Context:\n{context_text}"
+
     try:
         from pydantic import BaseModel
         class GapSchema(BaseModel):
             identified_gaps: List[str]
             proposed_directions: List[str]
-            
-        result_json = await groq_provider.generate_metadata(context_text, GapSchema)
-        
+
+        result = await groq_provider.generate_structured(
+            prompt=prompt,
+            schema_class=GapSchema,
+            system_instruction=system_instruction
+        )
+        result_json = result.model_dump()
+
         return GapAnalysisResult(
             id=uuid.uuid4(),
-            topic_focus=request.topic_focus,
+            topic_focus=request.topic_focus or "",
             identified_gaps=result_json.get("identified_gaps", []),
             proposed_directions=result_json.get("proposed_directions", [])
         )

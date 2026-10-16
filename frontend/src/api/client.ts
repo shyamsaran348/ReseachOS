@@ -49,7 +49,15 @@ export async function apiRequest<T = any>(endpoint: string, options: RequestInit
     let errorDetail = 'Request failed';
     try {
       const errorJson = await response.json();
-      errorDetail = errorJson.detail || JSON.stringify(errorJson);
+      if (typeof errorJson.detail === 'string') {
+        errorDetail = errorJson.detail;
+      } else if (Array.isArray(errorJson.detail)) {
+        errorDetail = errorJson.detail.map((e: any) => e.msg || e.message || JSON.stringify(e)).join(', ');
+      } else if (errorJson.detail && typeof errorJson.detail === 'object') {
+        errorDetail = errorJson.detail.msg || errorJson.detail.message || JSON.stringify(errorJson.detail);
+      } else {
+        errorDetail = JSON.stringify(errorJson);
+      }
     } catch {
       errorDetail = await response.text();
     }

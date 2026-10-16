@@ -35,7 +35,7 @@ export const GapAnalysis: React.FC<GapAnalysisProps> = ({ projectId, papers }) =
           method: 'POST',
           body: JSON.stringify({
             project_id: projectId,
-            topic_focus: topicFocus || undefined,
+            topic_focus: topicFocus ? topicFocus.trim() : '',
           }),
         }
       );
