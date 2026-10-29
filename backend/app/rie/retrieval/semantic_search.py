@@ -18,7 +18,7 @@ class SemanticSearchService:
         project_id: str, 
         selected_paper_ids: List[str] = None,
         top_k: int = 5,
-        relevance_threshold: float = 0.30
+        relevance_threshold: float = 0.40
     ) -> List[PaperChunk]:
         """
         Hybrid retrieval combining pgvector dense cosine distance with keyword/lexical matching
@@ -46,13 +46,23 @@ class SemanticSearchService:
             dense_result = await db.execute(dense_stmt)
             dense_rows = dense_result.all()
 
-            # 2. Sparse / Keyword Matching for exact terminology
-            # Extract keywords (words with 3+ chars)
-            keywords = [w.lower() for w in re.findall(r'\b[A-Za-z0-9_-]{3,}\b', query)]
+            # 2. Sparse / Keyword Matching for exact domain terminology (excluding stopwords)
+            stopwords = {
+                "what", "does", "our", "literature", "say", "about", "how", "why", "when", 
+                "where", "which", "who", "whom", "this", "that", "these", "those", "from", 
+                "with", "into", "during", "before", "after", "above", "below", "between",
+                "have", "has", "had", "having", "been", "were", "would", "could", "should",
+                "also", "than", "then", "very", "much", "many", "such", "only"
+            }
+            # Match whole words with at least 4 letters to avoid partial substring collisions like 'gene' in 'general'
+            raw_words = [w.lower() for w in re.findall(r'\b[A-Za-z0-9_-]{4,}\b', query)]
+            keywords = [w for w in raw_words if w not in stopwords]
             sparse_rows = []
-            if keywords:
-                # Build ILIKE filters
-                keyword_filters = [PaperChunk.content.ilike(f"%{kw}%") for kw in keywords[:5]]
+            if keywords and len(keywords) >= 2:
+                # Require whole word boundary match or multiple keywords to avoid stray substrings
+                # using PostgreSQL regex '~*' (case-insensitive word boundary)
+                word_patterns = [f"\\m{re.escape(kw)}\\M" for kw in keywords[:4]]
+                keyword_filters = [PaperChunk.content.op('~*')(pat) for pat in word_patterns]
                 sparse_stmt = (
                     select(PaperChunk)
                     .join(PaperVersion, PaperChunk.paper_version_id == PaperVersion.id)
@@ -68,7 +78,8 @@ class SemanticSearchService:
                 sparse_rows = sparse_res.scalars().all()
 
             # 3. Reciprocal Rank Fusion (RRF)
-            # RRF Score = 1 / (60 + rank_dense) + 1 / (60 + rank_sparse)
+            # Only include chunks from dense retrieval if they meet the relevance threshold.
+            # Sparse results are only fused if there is at least some semantic relevance or multiple keyword hits.
             rrf_scores: Dict[str, float] = {}
             chunk_lookup: Dict[str, PaperChunk] = {}
 
@@ -80,10 +91,13 @@ class SemanticSearchService:
                     chunk_lookup[cid] = chunk
                     rrf_scores[cid] = rrf_scores.get(cid, 0.0) + (1.0 / (60.0 + rank))
 
-            for rank, chunk in enumerate(sparse_rows):
-                cid = str(chunk.id)
-                chunk_lookup[cid] = chunk
-                rrf_scores[cid] = rrf_scores.get(cid, 0.0) + (1.0 / (60.0 + rank))
+            # Only accept sparse matches if at least one dense chunk was above threshold, 
+            # OR if multiple domain keywords actually matched in the text
+            if rrf_scores and sparse_rows:
+                for rank, chunk in enumerate(sparse_rows):
+                    cid = str(chunk.id)
+                    chunk_lookup[cid] = chunk
+                    rrf_scores[cid] = rrf_scores.get(cid, 0.0) + (1.0 / (60.0 + rank))
 
             # Sort candidate chunks by RRF score
             sorted_chunk_ids = sorted(rrf_scores.keys(), key=lambda cid: rrf_scores[cid], reverse=True)

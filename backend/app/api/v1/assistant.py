@@ -60,9 +60,12 @@ async def chat_with_assistant(
     context_text = "\n\n".join(context_blocks)
 
     system_instruction = (
-        "You are an academic research assistant. Answer the user question strictly using the provided Context passages.\n"
-        "Cite every factual statement or numerical finding using [Citation N] format.\n"
-        "If a fact is not supported by the context, explicitly state that it is not documented in the uploaded papers."
+        "You are an academic research assistant for ResearchOS.\n"
+        "Your role is to assist researchers by answering their questions using the provided Context Passages from their uploaded papers.\n"
+        "GUIDELINES:\n"
+        "- Answer the researcher's specific question directly, thoroughly, and factually using the provided Context Passages.\n"
+        "- Cite every supporting fact, formula, or finding using [Citation N] format (e.g. [Citation 1], [Citation 2]).\n"
+        "- Do NOT mention other unrelated domains (like medicine or biology) unless the user's question specifically asked about them."
     )
     prompt = f"Context Passages:\n{context_text}\n\nResearcher Question:\n{request.query}"
     

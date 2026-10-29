@@ -36,10 +36,10 @@ async def analyze_gaps(
 
     meta_evidence = []
     for m in metadata_list:
-        if m.limitations:
-            meta_evidence.append(f"Reported Limitations: {m.limitations}")
-        if m.future_work:
-            meta_evidence.append(f"Suggested Future Work: {m.future_work}")
+        if m.stated_limitations:
+            meta_evidence.append(f"Reported Limitations: {m.stated_limitations}")
+        if m.suggested_future_work:
+            meta_evidence.append(f"Suggested Future Work: {m.suggested_future_work}")
 
     # 2. Retrieve semantic chunks broadly related to topic focus
     query_text = request.topic_focus.strip() if request.topic_focus and request.topic_focus.strip() else "limitations future work bottlenecks unaddressed challenges"
@@ -82,17 +82,28 @@ async def analyze_gaps(
     prompt = f"Target Topic / Perspective: {topic_str}\n\nEvidence Context:\n{context_text}"
 
     try:
-        from pydantic import BaseModel
+        from typing import Union
+        from pydantic import BaseModel, Field, field_validator
+
         class GroundedGapSchema(BaseModel):
-            gap_title: str
-            gap_description: str
-            supporting_evidence: List[str]
-            recommended_experiment: str
+            gap_title: str = Field(default="Unexplored Research Direction")
+            gap_description: str = Field(default="")
+            supporting_evidence: Union[List[str], str] = Field(default_factory=list)
+            recommended_experiment: str = Field(default="")
+
+            @field_validator("supporting_evidence", mode="before")
+            @classmethod
+            def normalize_evidence(cls, v):
+                if isinstance(v, str):
+                    return [v]
+                if isinstance(v, list):
+                    return [str(item) for item in v]
+                return []
 
         class GapResultSchema(BaseModel):
-            identified_gaps: List[str]
-            proposed_directions: List[str]
-            grounded_gaps: List[GroundedGapSchema]
+            identified_gaps: List[str] = Field(default_factory=list)
+            proposed_directions: List[str] = Field(default_factory=list)
+            grounded_gaps: List[GroundedGapSchema] = Field(default_factory=list)
 
         result = await groq_provider.generate_structured(
             prompt=prompt,

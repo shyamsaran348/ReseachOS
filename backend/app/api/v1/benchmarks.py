@@ -28,7 +28,7 @@ def clean_metric_value(text: str) -> float:
             return 85.0
     return 85.0
 
-@router.get("/{project_id}", response_model=BenchmarkOverviewResponse)
+@router.get("", response_model=BenchmarkOverviewResponse)
 async def get_project_benchmarks(
     project_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
@@ -77,7 +77,7 @@ async def get_project_benchmarks(
         short_model = paper.title.split(":")[0].strip() if ":" in paper.title else paper.title[:30]
         arch_family = meta.methodology_summary[:35] if meta and meta.methodology_summary else "Neural Architecture"
 
-        datasets = meta.datasets_used if meta and meta.datasets_used else ["Standard Academic Benchmark"]
+        datasets = meta.primary_datasets if meta and meta.primary_datasets else ["Standard Academic Benchmark"]
         metrics = meta.evaluation_metrics if meta and meta.evaluation_metrics else ["Accuracy"]
 
         # Parse metrics into structured BenchmarkMetricRecord

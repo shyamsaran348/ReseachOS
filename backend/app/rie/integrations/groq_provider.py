@@ -68,11 +68,11 @@ class GroqLLMProvider:
         if system_instruction:
             messages.append({"role": "system", "content": system_instruction})
 
-        schema_hint = json.dumps(schema_class.model_json_schema().get("properties", {}))
+        schema_json = json.dumps(schema_class.model_json_schema())
         json_prompt = (
             f"{prompt}\n\n"
-            f"IMPORTANT: Respond ONLY with a valid raw JSON object strictly conforming to these properties: {schema_hint}. "
-            f"Do not include markdown fences ```json or any conversational text."
+            f"IMPORTANT: Respond ONLY with a valid raw JSON object strictly conforming to this JSON Schema:\n{schema_json}\n"
+            f"Do not include markdown fences ```json or any extra conversational text."
         )
         messages.append({"role": "user", "content": json_prompt})
 
@@ -82,7 +82,7 @@ class GroqLLMProvider:
                 messages=messages,
                 temperature=0.1,
                 response_format={"type": "json_object"},
-                max_tokens=600  # Groq free-tier OTPM limit = 1000
+                max_tokens=1500
             )
             raw_json_str = response.choices[0].message.content.strip()
             parsed_dict = json.loads(raw_json_str)

@@ -69,7 +69,7 @@ export const LiteratureReview: React.FC<LiteratureReviewProps> = ({ projectId, p
     setError(null);
     try {
       const data = await apiRequest<ComparativeMatrixResponse>(
-        `/projects/${projectId}/reviews/comparative-matrix/${projectId}`
+        `/projects/${projectId}/reviews/comparative-matrix`
       );
       setMatrixData(data);
     } catch (err: any) {

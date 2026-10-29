@@ -36,7 +36,7 @@ export const PerformanceBenchmarks: React.FC<PerformanceBenchmarksProps> = ({ pr
   const loadBenchmarks = async () => {
     setLoading(true);
     try {
-      const res = await apiRequest<BenchmarkOverviewResponse>(`/projects/${projectId}/benchmarks/${projectId}`);
+      const res = await apiRequest<BenchmarkOverviewResponse>(`/projects/${projectId}/benchmarks`);
       setData(res);
       if (res.groups.length > 0) {
         setActiveGroupIndex(0);

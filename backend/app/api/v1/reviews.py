@@ -74,7 +74,7 @@ async def generate_literature_review(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/comparative-matrix/{project_id}", response_model=ComparativeMatrixResponse)
+@router.get("/comparative-matrix", response_model=ComparativeMatrixResponse)
 async def get_comparative_matrix(
     project_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
@@ -111,10 +111,10 @@ async def get_comparative_matrix(
         authors = meta.authors if meta and meta.authors else ["Primary Authors"]
         year = meta.publication_year if meta else None
         method = meta.methodology_summary if meta and meta.methodology_summary else "Empirical / Theoretical Framework"
-        datasets = meta.datasets_used if meta and meta.datasets_used else ["Standard Benchmarks"]
+        datasets = meta.primary_datasets if meta and meta.primary_datasets else ["Standard Benchmarks"]
         metrics = meta.evaluation_metrics if meta and meta.evaluation_metrics else ["Accuracy / Latency"]
-        findings = meta.key_findings if meta and meta.key_findings else [paper.abstract[:120] + "..."] if paper.abstract else ["Novel contribution validated"]
-        limits = meta.limitations if meta and meta.limitations else ["Compute & memory scalability bounds"]
+        findings = meta.key_findings if meta and meta.key_findings else (meta.abstract[:120] + "..." if meta and meta.abstract else ["Novel contribution validated"])
+        limits = meta.stated_limitations if meta and meta.stated_limitations else ["Compute & memory scalability bounds"]
 
         matrix_entries.append(MatrixPaperEntry(
             paper_id=paper.id,
