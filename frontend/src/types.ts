@@ -101,6 +101,53 @@ export interface ComparativeMatrixResponse {
   latex_table: string;
 }
 
+export type ComparabilityTier = 'DIRECTLY_COMPARABLE' | 'CONDITIONALLY_COMPARABLE' | 'NOT_COMPARABLE';
+
+export interface BenchmarkMetricRecord {
+  id: string;
+  paper_id: string;
+  paper_title: string;
+  model_name: string;
+  architecture_family: string;
+  dataset_name: string;
+  metric_name: string;
+  metric_value: number;
+  unit: string;
+  evaluation_split: string;
+  source_page: number;
+  experimental_protocol?: string;
+  reported_baseline?: string;
+}
+
+export interface BenchmarkPairComparison {
+  model_a: string;
+  model_b: string;
+  dataset_name: string;
+  metric_name: string;
+  score_a: number;
+  score_b: number;
+  delta_percentage: number;
+  tier: ComparabilityTier;
+  discrepancy_rationale: string;
+}
+
+export interface BenchmarkGroup {
+  dataset_name: string;
+  metric_name: string;
+  records: BenchmarkMetricRecord[];
+  comparability_summary: string;
+  comparisons: BenchmarkPairComparison[];
+}
+
+export interface BenchmarkOverviewResponse {
+  project_id: string;
+  total_benchmarks_extracted: number;
+  datasets: string[];
+  metrics: string[];
+  groups: BenchmarkGroup[];
+  latex_benchmark_table: string;
+}
+
 export interface ProjectAnalytics {
   total_papers: number;
   total_chunks: number;

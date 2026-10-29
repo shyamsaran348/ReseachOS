@@ -6,6 +6,7 @@ import { Sidebar, TabType } from './components/Sidebar';
 import { PapersLibrary } from './components/PapersLibrary';
 import { AssistantChat } from './components/AssistantChat';
 import { LiteratureReview } from './components/LiteratureReview';
+import { PerformanceBenchmarks } from './components/PerformanceBenchmarks';
 import { GapAnalysis } from './components/GapAnalysis';
 import { ProjectAnalyticsDashboard } from './components/ProjectAnalyticsDashboard';
 import { UploadModal } from './components/UploadModal';
@@ -48,22 +49,17 @@ export default function App() {
 
       if (projectList.length > 0) {
         // Keep active or select first
-        setActiveProject((prev) => (prev ? projectList.find((p) => p.id === prev.id) || projectList[0] : projectList[0]));
-      } else {
-        // Auto-create a default starter project if none exists
-        const defaultProj = await apiRequest<Project>('/projects', {
-          method: 'POST',
-          body: JSON.stringify({
-            name: 'Primary Research Workspace',
-            description: 'Default project for literature review and synthesis',
-            research_objective: 'Synthesize research and discover literature gaps',
-          }),
+        setActiveProject((prev) => {
+          if (prev && projectList.some((p) => p.id === prev.id)) {
+            return prev;
+          }
+          return projectList[0];
         });
-        setProjects([defaultProj]);
-        setActiveProject(defaultProj);
+      } else {
+        setActiveProject(null);
       }
     } catch (err) {
-      console.error('Error loading initial data', err);
+      console.error('Failed to load user or projects:', err);
     } finally {
       setInitialLoading(false);
     }
@@ -80,10 +76,10 @@ export default function App() {
       return;
     }
     try {
-      const data = await apiRequest<Paper[]>(`/projects/${activeProject.id}/papers`);
-      setPapers(data);
+      const paperList = await apiRequest<Paper[]>(`/projects/${activeProject.id}/papers`);
+      setPapers(paperList);
     } catch (err) {
-      console.error('Failed to load papers', err);
+      console.error('Failed to fetch papers:', err);
     }
   };
 
@@ -91,23 +87,25 @@ export default function App() {
     fetchPapers();
   }, [activeProject]);
 
-  // Real-time polling every 3 seconds if any paper is in QUEUED or EXTRACTING state
+  // Periodic polling for extracting papers
   useEffect(() => {
-    if (!activeProject) return;
+    if (!activeProject || papers.length === 0) return;
 
-    const hasPending = papers.some((p) => p.status === 'QUEUED' || p.status === 'EXTRACTING');
-    if (!hasPending) return;
+    const hasProcessing = papers.some(
+      (p) => p.status === 'QUEUED' || p.status === 'EXTRACTING'
+    );
+
+    if (!hasProcessing) return;
 
     const interval = setInterval(() => {
       fetchPapers();
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [papers, activeProject]);
+  }, [activeProject, papers]);
 
   const handleLoginSuccess = (authData: AuthResponse) => {
     setToken(authData.access_token);
-    setUserName(authData.display_name);
   };
 
   const handleLogout = () => {
@@ -184,6 +182,10 @@ export default function App() {
 
               {activeTab === 'review' && (
                 <LiteratureReview projectId={activeProject.id} papers={papers} />
+              )}
+
+              {activeTab === 'benchmarks' && (
+                <PerformanceBenchmarks projectId={activeProject.id} papers={papers} />
               )}
 
               {activeTab === 'gap' && (
