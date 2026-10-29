@@ -53,11 +53,15 @@ class AssistantChatRequest(BaseModel):
     selected_paper_ids: List[uuid.UUID] = []
 
 class AssistantCitation(BaseModel):
+    citation_id: int = 1
     paper_title: str
     page_number: int
     quoted_text: str
+    verified: bool = True
+    confidence_score: float = 0.95
 
 class AssistantChatResponse(BaseModel):
     answer: str
     citations: List[AssistantCitation] = []
     grounded: bool = True
+    verification_summary: Optional[str] = None

@@ -37,10 +37,15 @@ export interface Paper {
 }
 
 export interface Citation {
-  paper_id: string;
+  citation_id?: number;
+  paper_id?: string;
   paper_title: string;
-  chunk_index: number;
-  text: string;
+  page_number?: number;
+  chunk_index?: number;
+  quoted_text?: string;
+  text?: string;
+  verified?: boolean;
+  confidence_score?: number;
   score?: number;
 }
 
@@ -48,13 +53,23 @@ export interface AssistantChatResponse {
   answer: string;
   citations: Citation[];
   grounded: boolean;
+  verification_summary?: string;
+}
+
+export interface GroundedGap {
+  gap_title: string;
+  gap_description: string;
+  supporting_evidence: string[];
+  recommended_experiment: string;
 }
 
 export interface GapAnalysisResponse {
-  project_id: string;
+  id?: string;
+  project_id?: string;
   topic_focus: string;
   identified_gaps: string[];
   proposed_directions: string[];
+  grounded_gaps?: GroundedGap[];
 }
 
 export interface LiteratureReviewResponse {
@@ -65,6 +80,25 @@ export interface LiteratureReviewResponse {
   markdown_content: string;
   cited_paper_ids: string[];
   created_at?: string;
+}
+
+export interface MatrixPaperEntry {
+  paper_id: string;
+  title: string;
+  authors: string[];
+  publication_year?: number;
+  core_methodology: string;
+  datasets_evaluated: string[];
+  metrics_reported: string[];
+  key_findings: string[];
+  limitations: string[];
+}
+
+export interface ComparativeMatrixResponse {
+  project_id: string;
+  total_papers: number;
+  matrix: MatrixPaperEntry[];
+  latex_table: string;
 }
 
 export interface ProjectAnalytics {

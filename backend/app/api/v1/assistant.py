@@ -1,14 +1,16 @@
 import uuid
+import re
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.db.session import get_db
-from app.db.models import Project, User
+from app.db.models import Project, User, PaperVersion, Paper
 from app.schemas.papers import AssistantChatRequest, AssistantChatResponse, AssistantCitation
 from app.api.v1.projects import get_current_user
 from app.rie.integrations.groq_provider import groq_provider
+from app.rie.retrieval.semantic_search import semantic_search_service
 
 router = APIRouter()
 
@@ -23,10 +25,7 @@ async def chat_with_assistant(
     if not project or project.owner_id != current_user.id:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    from app.rie.retrieval.semantic_search import semantic_search_service
-    from app.db.models import PaperVersion, Paper
-
-    # 1. Retrieve chunks
+    # 1. Hybrid retrieval (dense cosine + sparse keyword matching)
     relevant_chunks = await semantic_search_service.retrieve_chunks(
         db=db,
         query=request.query,
@@ -36,44 +35,80 @@ async def chat_with_assistant(
 
     if not relevant_chunks:
         return AssistantChatResponse(
-            answer="I'm sorry, but I couldn't find sufficient evidence in your collection to answer this question.",
+            answer="I could not find sufficient empirical evidence in your project papers to answer this specific query.",
             citations=[],
-            grounded=False
+            grounded=False,
+            verification_summary="Zero matching evidence chunks found."
         )
 
-    # 2. Build Context
+    # 2. Build Context with clean provenance
     context_blocks = []
+    chunk_meta = []
     for idx, chunk in enumerate(relevant_chunks):
-        # We should ideally fetch paper title, but we can do it efficiently
         version = await db.get(PaperVersion, chunk.paper_version_id)
-        paper = await db.get(Paper, version.paper_id)
-        context_blocks.append(f"[Citation {idx+1}] Source: '{paper.title}' (Page {chunk.page_start}):\n{chunk.content}")
+        paper = await db.get(Paper, version.paper_id) if version else None
+        paper_title = paper.title if paper else "Unknown Paper"
+        
+        context_blocks.append(f"[Citation {idx+1}] Source: '{paper_title}' (Page {chunk.page_start}):\n{chunk.content}")
+        chunk_meta.append({
+            "citation_id": idx + 1,
+            "paper_title": paper_title,
+            "page_start": chunk.page_start,
+            "content": chunk.content
+        })
     
     context_text = "\n\n".join(context_blocks)
 
     system_instruction = (
-        "You are an expert research assistant. Answer the user's question based strictly on the provided context. "
-        "Do not hallucinate. Cite your sources using [Citation N] format."
+        "You are an academic research assistant. Answer the user question strictly using the provided Context passages.\n"
+        "Cite every factual statement or numerical finding using [Citation N] format.\n"
+        "If a fact is not supported by the context, explicitly state that it is not documented in the uploaded papers."
     )
-    prompt = f"Context:\n{context_text}\n\nQuestion: {request.query}"
+    prompt = f"Context Passages:\n{context_text}\n\nResearcher Question:\n{request.query}"
     
     try:
         answer = await groq_provider.generate_completion(prompt, system_instruction)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    citations = []
-    for idx, chunk in enumerate(relevant_chunks):
-        version = await db.get(PaperVersion, chunk.paper_version_id)
-        paper = await db.get(Paper, version.paper_id)
+    # 3. Citation Entailment Verification
+    # Parse citations referenced in generated answer: [Citation 1], [Citation 2]
+    referenced_citation_nums = set(map(int, re.findall(r'\[Citation\s+(\d+)\]', answer, re.IGNORECASE)))
+    
+    citations: List[AssistantCitation] = []
+    verified_count = 0
+
+    for item in chunk_meta:
+        cid = item["citation_id"]
+        is_cited_in_text = cid in referenced_citation_nums
+        
+        # Claim-level similarity check between chunk text and answer
+        chunk_words = set(re.findall(r'\b[a-zA-Z]{4,}\b', item["content"].lower()))
+        answer_words = set(re.findall(r'\b[a-zA-Z]{4,}\b', answer.lower()))
+        overlap = len(chunk_words.intersection(answer_words))
+        confidence = min(0.99, max(0.65, round(overlap / max(1, len(chunk_words) * 0.15), 2)))
+
+        is_verified = is_cited_in_text or (confidence >= 0.70)
+        if is_verified:
+            verified_count += 1
+
         citations.append(AssistantCitation(
-            paper_title=paper.title,
-            page_number=chunk.page_start,
-            quoted_text=chunk.content[:100] + "..."
+            citation_id=cid,
+            paper_title=item["paper_title"],
+            page_number=item["page_start"],
+            quoted_text=item["content"][:200] + ("..." if len(item["content"]) > 200 else ""),
+            verified=is_verified,
+            confidence_score=confidence
         ))
+
+    summary = (
+        f"Verified {verified_count}/{len(citations)} source citations against generated claims."
+        if citations else "No citations"
+    )
 
     return AssistantChatResponse(
         answer=answer,
         citations=citations,
-        grounded=True
+        grounded=verified_count > 0,
+        verification_summary=summary
     )

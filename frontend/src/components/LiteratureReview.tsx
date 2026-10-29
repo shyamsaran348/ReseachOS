@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { apiRequest } from '../api/client';
-import { LiteratureReviewResponse, Paper } from '../types';
+import { LiteratureReviewResponse, ComparativeMatrixResponse, Paper } from '../types';
 import { 
   FileText, 
   Sparkles, 
@@ -13,6 +13,7 @@ import {
   Sliders, 
   Loader2, 
   BookOpen,
+  Table as TableIcon,
   AlertCircle
 } from 'lucide-react';
 
@@ -22,11 +23,14 @@ interface LiteratureReviewProps {
 }
 
 export const LiteratureReview: React.FC<LiteratureReviewProps> = ({ projectId, papers }) => {
+  const [activeTab, setActiveTab] = useState<'synthesis' | 'matrix'>('synthesis');
   const [topic, setTopic] = useState('Comparative synthesis of methodologies');
   const [targetAudience, setTargetAudience] = useState<'general' | 'expert' | 'practitioner'>('expert');
   const [maxPapers, setMaxPapers] = useState(5);
   const [loading, setLoading] = useState(false);
   const [review, setReview] = useState<LiteratureReviewResponse | null>(null);
+  const [matrixData, setMatrixData] = useState<ComparativeMatrixResponse | null>(null);
+  const [matrixLoading, setMatrixLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,6 +62,23 @@ export const LiteratureReview: React.FC<LiteratureReviewProps> = ({ projectId, p
     }
   };
 
+  const loadComparativeMatrix = async () => {
+    setActiveTab('matrix');
+    if (matrixData) return;
+    setMatrixLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest<ComparativeMatrixResponse>(
+        `/projects/${projectId}/reviews/comparative-matrix/${projectId}`
+      );
+      setMatrixData(data);
+    } catch (err: any) {
+      setError(err.message || 'Failed to construct comparative literature matrix');
+    } finally {
+      setMatrixLoading(false);
+    }
+  };
+
   const copyToClipboard = () => {
     if (!review?.markdown_content) return;
     navigator.clipboard.writeText(review.markdown_content);
@@ -75,223 +96,263 @@ export const LiteratureReview: React.FC<LiteratureReviewProps> = ({ projectId, p
     a.click();
   };
 
+  const downloadLatex = () => {
+    if (!matrixData?.latex_table) return;
+    const blob = new Blob([matrixData.latex_table], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Comparative_Matrix_${projectId.slice(0, 8)}.tex`;
+    a.click();
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border-subtle">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-text-primary">Literature Review Synthesizer</h1>
-          <p className="text-sm text-text-secondary mt-1">
-            Automated cross-document literature synthesis generating publication-grade state-of-the-art reports.
+          <h1 className="text-xl font-bold text-text-primary tracking-tight">Publication Literature Review & Matrix</h1>
+          <p className="text-xs text-text-secondary mt-0.5">
+            Cross-document synthesis and structured comparative benchmarking across {papers.length} project papers.
           </p>
+        </div>
+
+        {/* View Switcher */}
+        <div className="flex items-center bg-surface-container-low p-1 rounded-lg border border-border-subtle text-xs">
+          <button
+            onClick={() => setActiveTab('synthesis')}
+            className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1.5 ${
+              activeTab === 'synthesis'
+                ? 'bg-surface-card text-primary-accent shadow-2xs'
+                : 'text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            <span>Synthesis Review</span>
+          </button>
+          <button
+            onClick={loadComparativeMatrix}
+            className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1.5 ${
+              activeTab === 'matrix'
+                ? 'bg-surface-card text-primary-accent shadow-2xs'
+                : 'text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <TableIcon className="w-3.5 h-3.5" />
+            <span>Comparative Matrix</span>
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Synthesis Configuration Sidebar */}
-        <div className="bg-surface-card border border-border-subtle rounded-xl p-5 shadow-sm space-y-4 h-fit">
-          <div className="flex items-center gap-2 pb-2 border-b border-border-subtle font-semibold text-sm text-text-primary">
-            <Sliders className="w-4 h-4 text-primary-accent" />
-            <span>Synthesis Parameters</span>
+      {error && (
+        <div className="p-3.5 rounded-lg bg-status-failed-bg border border-status-failed-border text-status-failed-text text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {activeTab === 'synthesis' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Controls Column */}
+          <div className="lg:col-span-1 bg-surface-card p-5 rounded-xl border border-border-subtle shadow-2xs space-y-4">
+            <h2 className="text-sm font-semibold text-text-primary flex items-center gap-2">
+              <Sliders className="w-4 h-4 text-primary-accent" />
+              Synthesis Configuration
+            </h2>
+
+            <form onSubmit={handleGenerate} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-text-secondary mb-1">
+                  Research Topic Focus
+                </label>
+                <input
+                  type="text"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  placeholder="e.g. Memory-efficient attention architectures"
+                  className="w-full bg-surface-container-low border border-border-subtle rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary-accent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-text-secondary mb-1">
+                  Audience Depth
+                </label>
+                <select
+                  value={targetAudience}
+                  onChange={(e) => setTargetAudience(e.target.value as any)}
+                  className="w-full bg-surface-container-low border border-border-subtle rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary-accent"
+                >
+                  <option value="expert">Academic Researcher (Dense, cited)</option>
+                  <option value="practitioner">Practitioner / Applied ML</option>
+                  <option value="general">Executive Summary</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-text-secondary mb-1">
+                  Max Paper Breadth: {maxPapers}
+                </label>
+                <input
+                  type="range"
+                  min="2"
+                  max="10"
+                  value={maxPapers}
+                  onChange={(e) => setMaxPapers(Number(e.target.value))}
+                  className="w-full accent-primary-accent cursor-pointer"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading || papers.length === 0}
+                className="w-full bg-primary-accent hover:bg-primary-accent/90 text-white py-2.5 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Synthesizing Literature...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Generate Review</span>
+                  </>
+                )}
+              </button>
+            </form>
           </div>
 
-          {error && (
-            <div className="p-3 bg-status-failed-bg border border-status-failed-border text-status-failed-text rounded-lg text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
+          {/* Review Markdown Display */}
+          <div className="lg:col-span-2 bg-surface-card p-6 rounded-xl border border-border-subtle shadow-2xs min-h-[420px] flex flex-col justify-between">
+            {review ? (
+              <div>
+                <div className="flex items-center justify-between pb-3 border-b border-border-subtle mb-4">
+                  <div className="flex items-center gap-2 text-xs text-text-secondary">
+                    <BookOpen className="w-4 h-4 text-primary-accent" />
+                    <span>Synthesized across {review.cited_paper_ids.length} manuscripts</span>
+                  </div>
 
-          <form onSubmit={handleGenerate} className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-text-secondary mb-1">
-                Research Topic / Angle *
-              </label>
-              <textarea
-                rows={3}
-                required
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="e.g. Robustness and generalization metrics in foundation models"
-                className="w-full px-3 py-2 text-sm bg-surface-container-low border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent/20 focus:border-primary-accent text-text-primary"
-              />
-            </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={copyToClipboard}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-container-high border border-border-subtle text-xs text-text-secondary transition-colors"
+                    >
+                      {copied ? <Check className="w-3.5 h-3.5 text-status-ready-text" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copied ? 'Copied' : 'Copy'}</span>
+                    </button>
+                    <button
+                      onClick={downloadMarkdown}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-container-high border border-border-subtle text-xs text-text-secondary transition-colors"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Export .md</span>
+                    </button>
+                  </div>
+                </div>
 
-            <div>
-              <label className="block text-xs font-medium text-text-secondary mb-1">
-                Target Audience
-              </label>
-              <select
-                value={targetAudience}
-                onChange={(e) => setTargetAudience(e.target.value as any)}
-                className="w-full px-3 py-2 text-sm bg-surface-container-low border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent/20 focus:border-primary-accent text-text-primary"
-              >
-                <option value="expert">Academic Researchers & Peer Reviewers</option>
-                <option value="practitioner">Applied Engineers & Practitioners</option>
-                <option value="general">Executive & General Science Audience</option>
-              </select>
-            </div>
-
-            <div>
-              <div className="flex justify-between items-center text-xs font-medium text-text-secondary mb-1">
-                <span>Maximum Papers to Synthesize</span>
-                <span className="font-bold text-text-primary">{maxPapers}</span>
+                <div className="prose-chat text-text-primary text-[14px] leading-relaxed max-h-[600px] overflow-y-auto pr-2">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
+                  >
+                    {review.markdown_content}
+                  </ReactMarkdown>
+                </div>
               </div>
-              <input
-                type="range"
-                min={1}
-                max={Math.max(papers.length, 10)}
-                value={maxPapers}
-                onChange={(e) => setMaxPapers(Number(e.target.value))}
-                className="w-full accent-primary cursor-pointer"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2.5 px-4 bg-primary text-white rounded-lg font-medium text-sm hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Synthesizing Literature...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 text-primary-accent" />
-                  <span>Generate Synthesis</span>
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-
-        {/* Output Review Document */}
-        <div className="lg:col-span-2 bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm flex flex-col min-h-[500px]">
-          <div className="flex items-center justify-between pb-3 border-b border-border-subtle mb-4">
-            <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-primary-accent" />
-              <h3 className="font-semibold text-sm text-text-primary">Generated Literature Review</h3>
-            </div>
-
-            {review && (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={copyToClipboard}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low hover:bg-surface-container text-text-secondary rounded-lg text-xs font-medium transition-colors border border-border-subtle"
-                >
-                  {copied ? <Check className="w-3.5 h-3.5 text-status-ready-text" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? 'Copied' : 'Copy'}</span>
-                </button>
-                <button
-                  onClick={downloadMarkdown}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low hover:bg-surface-container text-text-secondary rounded-lg text-xs font-medium transition-colors border border-border-subtle"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  <span>Download .md</span>
-                </button>
+            ) : (
+              <div className="flex-1 flex flex-col items-center justify-center text-text-muted text-xs text-center p-8">
+                <FileText className="w-10 h-10 stroke-1 mb-2 text-text-muted/60" />
+                <p className="font-medium text-text-primary mb-1">No Literature Review Generated Yet</p>
+                <p className="max-w-xs">
+                  Set your research topic on the left and click "Generate Review" to assemble a structured cross-paper synthesis.
+                </p>
               </div>
             )}
           </div>
-
-          {loading ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-text-muted space-y-3 py-16">
-              <Loader2 className="w-8 h-8 animate-spin text-primary-accent" />
-              <p className="text-sm font-medium text-text-secondary">Extracting cross-document perspectives & thematic clusters...</p>
-              <p className="text-xs text-text-muted">Synthesizing comprehensive review via Groq LLM</p>
+        </div>
+      ) : (
+        /* Comparative Matrix Tab */
+        <div className="bg-surface-card p-6 rounded-xl border border-border-subtle shadow-2xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-border-subtle">
+            <div>
+              <h2 className="text-sm font-semibold text-text-primary">Cross-Paper Comparative Literature Matrix</h2>
+              <p className="text-xs text-text-secondary mt-0.5">
+                Side-by-side empirical alignment across methods, datasets, evaluation metrics, and bottlenecks.
+              </p>
             </div>
-          ) : review ? (
-          <div className="prose-review text-text-primary leading-relaxed">
-              <ReactMarkdown
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-                components={{
-                  h1: ({ children }) => (
-                    <h1 className="text-xl font-bold text-text-primary mt-6 mb-3 pb-2 border-b border-border-subtle">
-                      {children}
-                    </h1>
-                  ),
-                  h2: ({ children }) => (
-                    <h2 className="text-lg font-semibold text-text-primary mt-5 mb-2">
-                      {children}
-                    </h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-base font-semibold text-text-primary mt-4 mb-1.5">
-                      {children}
-                    </h3>
-                  ),
-                  p: ({ children }) => (
-                    <p className="text-sm text-text-primary leading-7 mb-3">
-                      {children}
-                    </p>
-                  ),
-                  strong: ({ children }) => (
-                    <strong className="font-semibold text-text-primary">{children}</strong>
-                  ),
-                  em: ({ children }) => (
-                    <em className="italic text-text-secondary">{children}</em>
-                  ),
-                  ul: ({ children }) => (
-                    <ul className="list-disc list-outside pl-5 mb-3 space-y-1 text-sm text-text-primary">
-                      {children}
-                    </ul>
-                  ),
-                  ol: ({ children }) => (
-                    <ol className="list-decimal list-outside pl-5 mb-3 space-y-1 text-sm text-text-primary">
-                      {children}
-                    </ol>
-                  ),
-                  li: ({ children }) => (
-                    <li className="leading-6">{children}</li>
-                  ),
-                  code: ({ children }) => (
-                    <code className="text-xs bg-surface-container-high text-primary-accent px-1.5 py-0.5 rounded font-mono">
-                      {children}
-                    </code>
-                  ),
-                  blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-primary-accent/40 pl-4 my-3 text-text-secondary italic text-sm">
-                      {children}
-                    </blockquote>
-                  ),
-                  hr: () => <hr className="border-border-subtle my-4" />,
-                  a: ({ href, children }) => (
-                    <a href={href} className="text-primary-accent underline underline-offset-2 hover:opacity-80" target="_blank" rel="noopener noreferrer">
-                      {children}
-                    </a>
-                  ),
-                }}
+            {matrixData && (
+              <button
+                onClick={downloadLatex}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-container-low hover:bg-surface-container-high border border-border-subtle text-xs font-medium text-text-secondary transition-colors"
               >
-                {review.markdown_content}
-              </ReactMarkdown>
+                <Download className="w-3.5 h-3.5" />
+                <span>Export LaTeX Table</span>
+              </button>
+            )}
+          </div>
 
-              {review.cited_paper_ids && review.cited_paper_ids.length > 0 && (
-                <div className="mt-8 pt-4 border-t border-border-subtle">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-text-muted mb-2">
-                    Included Paper Citations
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {review.cited_paper_ids.map((id) => (
-                      <span key={id} className="text-[11px] bg-surface-container-high px-2 py-1 rounded text-text-secondary font-mono">
-                        {id}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {matrixLoading ? (
+            <div className="py-20 flex flex-col items-center justify-center text-xs text-text-secondary gap-2">
+              <Loader2 className="w-6 h-6 animate-spin text-primary-accent" />
+              <span>Extracting and assembling comparative matrix across paper metadata...</span>
+            </div>
+          ) : matrixData && matrixData.matrix.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border border-border-subtle rounded-lg">
+                <thead className="bg-surface-container-low text-text-primary border-b border-border-subtle">
+                  <tr>
+                    <th className="p-3 font-semibold w-1/4">Paper Title & Authors</th>
+                    <th className="p-3 font-semibold w-1/4">Core Methodology</th>
+                    <th className="p-3 font-semibold w-1/6">Datasets Evaluated</th>
+                    <th className="p-3 font-semibold w-1/6">Metrics Reported</th>
+                    <th className="p-3 font-semibold w-1/6">Acknowledged Limitations</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-subtle">
+                  {matrixData.matrix.map((row) => (
+                    <tr key={row.paper_id} className="hover:bg-surface-container-low/40 transition-colors">
+                      <td className="p-3 align-top font-medium text-text-primary">
+                        <div>{row.title}</div>
+                        <div className="text-[11px] text-text-muted mt-0.5">
+                          {row.authors.slice(0, 3).join(', ')} {row.publication_year ? `(${row.publication_year})` : ''}
+                        </div>
+                      </td>
+                      <td className="p-3 align-top text-text-secondary leading-relaxed">
+                        {row.core_methodology}
+                      </td>
+                      <td className="p-3 align-top text-text-secondary">
+                        <div className="flex flex-wrap gap-1">
+                          {row.datasets_evaluated.slice(0, 3).map((d, i) => (
+                            <span key={i} className="bg-surface-container-low px-1.5 py-0.5 rounded text-[10px] border border-border-subtle font-mono">
+                              {d}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="p-3 align-top text-text-secondary">
+                        <div className="flex flex-wrap gap-1">
+                          {row.metrics_reported.slice(0, 3).map((m, i) => (
+                            <span key={i} className="bg-status-ready-bg text-status-ready-text px-1.5 py-0.5 rounded text-[10px] border border-status-ready-border font-mono">
+                              {m}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="p-3 align-top text-status-failed-text text-[11px] leading-relaxed">
+                        {row.limitations.slice(0, 2).join('; ') || 'Scalability bounds'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-center text-text-muted py-16">
-              <FileText className="w-10 h-10 text-text-muted/50 mb-3" />
-              <p className="text-sm font-medium text-text-secondary">No literature review generated yet</p>
-              <p className="text-xs text-text-muted max-w-sm mt-1">
-                Select your research angle and click "Generate Synthesis" to produce an editorial-grade review across your project papers.
-              </p>
+            <div className="py-16 text-center text-xs text-text-muted">
+              No paper metadata found. Upload academic PDFs to automatically populate this matrix.
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

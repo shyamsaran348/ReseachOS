@@ -1,5 +1,5 @@
-// API Base Configuration
-export const API_BASE = 'http://localhost:8000/api/v1';
+// Dynamic API Base Configuration with environment override
+export const API_BASE = ((import.meta as any).env?.VITE_API_BASE_URL as string) || 'http://localhost:8000/api/v1';
 
 export function getAuthToken(): string | null {
   return localStorage.getItem('access_token');
@@ -48,26 +48,17 @@ export async function apiRequest<T = any>(endpoint: string, options: RequestInit
   if (!response.ok) {
     let errorDetail = 'Request failed';
     try {
-      const errorJson = await response.json();
-      if (typeof errorJson.detail === 'string') {
-        errorDetail = errorJson.detail;
-      } else if (Array.isArray(errorJson.detail)) {
-        errorDetail = errorJson.detail.map((e: any) => e.msg || e.message || JSON.stringify(e)).join(', ');
-      } else if (errorJson.detail && typeof errorJson.detail === 'object') {
-        errorDetail = errorJson.detail.msg || errorJson.detail.message || JSON.stringify(errorJson.detail);
-      } else {
-        errorDetail = JSON.stringify(errorJson);
-      }
+      const err = await response.json();
+      errorDetail = err.detail || JSON.stringify(err);
     } catch {
-      errorDetail = await response.text();
+      errorDetail = `${response.status} ${response.statusText}`;
     }
-    throw new Error(errorDetail || `HTTP ${response.status}`);
+    throw new Error(errorDetail);
   }
 
-  // Check if response has content
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    return response.json();
+  if (response.status === 204) {
+    return {} as T;
   }
-  return response.text() as any;
+
+  return response.json();
 }

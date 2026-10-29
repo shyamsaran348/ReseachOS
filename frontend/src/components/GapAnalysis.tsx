@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { apiRequest } from '../api/client';
-import { GapAnalysisResponse, Paper } from '../types';
+import { GapAnalysisResponse, GroundedGap, Paper } from '../types';
 import { 
   Sparkles, 
   Search, 
@@ -9,7 +9,9 @@ import {
   AlertCircle, 
   ArrowRight, 
   Loader2,
-  HelpCircle
+  HelpCircle,
+  FileSearch,
+  CheckCircle2
 } from 'lucide-react';
 
 interface GapAnalysisProps {
@@ -53,7 +55,7 @@ export const GapAnalysis: React.FC<GapAnalysisProps> = ({ projectId, papers }) =
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-text-primary">Research Gap & Novelty Explorer</h1>
           <p className="text-sm text-text-secondary mt-1">
-            Detect unexplored intersections, unvalidated hypotheses, and actionable research directions across your library.
+            Detect unexplored intersections, unvalidated hypotheses, and actionable research directions grounded in paper limitations.
           </p>
         </div>
       </div>
@@ -74,103 +76,113 @@ export const GapAnalysis: React.FC<GapAnalysisProps> = ({ projectId, papers }) =
               type="text"
               value={topicFocus}
               onChange={(e) => setTopicFocus(e.target.value)}
-              placeholder="Optional focus topic (e.g. Model interpretability or few-shot adaptation)..."
+              placeholder="Optional focus topic (e.g. Model quantization or memory bounds on consumer GPUs)..."
               className="w-full pl-9 pr-4 py-2 text-sm bg-surface-container-low border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent/20 focus:border-primary-accent text-text-primary"
             />
           </div>
           <button
             type="submit"
-            disabled={loading}
-            className="px-5 py-2 bg-primary hover:bg-slate-800 text-white rounded-lg text-sm font-medium transition-colors shadow-sm disabled:opacity-50 flex items-center justify-center gap-2 shrink-0"
+            disabled={loading || papers.length === 0}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-primary-accent text-white text-sm font-medium hover:bg-primary-accent/90 transition-colors disabled:opacity-50"
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Analyzing Gaps...</span>
+                <span>Exploring Gaps & Frontiers...</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-primary-accent" />
-                <span>Explore Research Gaps</span>
+                <Sparkles className="w-4 h-4" />
+                <span>Analyze Gaps</span>
               </>
             )}
           </button>
         </form>
       </div>
 
-      {/* Two-Column Results Display */}
+      {/* Results View */}
       {result ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Identified Gaps */}
-          <div className="bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm flex flex-col space-y-4">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-border-subtle">
-              <div className="p-2 rounded-lg bg-status-failed-bg text-status-failed-text">
-                <Compass className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-sm text-text-primary">Identified Literature Gaps</h3>
-                <span className="text-xs text-text-muted">Unexplored or conflicting methodological areas</span>
+        <div className="space-y-6">
+          {/* Detailed Evidence-Grounded Gap Cards */}
+          {result.grounded_gaps && result.grounded_gaps.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-base font-bold text-text-primary flex items-center gap-2">
+                <FileSearch className="w-5 h-5 text-primary-accent" />
+                Evidence-Grounded Literature Gaps
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {result.grounded_gaps.map((gap, i) => (
+                  <div key={i} className="bg-surface-card border border-border-subtle rounded-xl p-5 shadow-2xs flex flex-col justify-between space-y-3">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-semibold text-primary-accent uppercase tracking-wider mb-1">
+                        <span>Frontier {i + 1}</span>
+                      </div>
+                      <h3 className="text-sm font-bold text-text-primary leading-snug">{gap.gap_title}</h3>
+                      <p className="text-xs text-text-secondary mt-1.5 leading-relaxed">{gap.gap_description}</p>
+
+                      {gap.supporting_evidence && gap.supporting_evidence.length > 0 && (
+                        <div className="mt-3 p-2.5 bg-surface-container-low rounded-lg border border-border-subtle text-[11px] text-text-secondary italic">
+                          <span className="font-semibold text-text-primary not-italic block mb-0.5">Reported Evidence:</span>
+                          "{gap.supporting_evidence[0]}"
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-3 border-t border-border-subtle/80">
+                      <span className="text-[11px] font-semibold text-status-ready-text uppercase tracking-wider flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Proposed Experiment:
+                      </span>
+                      <p className="text-xs text-text-primary mt-1 font-medium leading-relaxed">
+                        {gap.recommended_experiment}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
+          )}
 
-            <div className="space-y-3 flex-1 overflow-y-auto">
-              {result.identified_gaps.map((gap, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-xl bg-surface-container-low border border-border-subtle hover:border-primary-accent/40 transition-colors flex items-start gap-3"
-                >
-                  <span className="w-5 h-5 rounded-full bg-status-failed-bg text-status-failed-text text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    {idx + 1}
-                  </span>
-                  <p className="text-xs leading-relaxed text-text-primary font-medium">
-                    {gap}
-                  </p>
-                </div>
-              ))}
-              {result.identified_gaps.length === 0 && (
-                <p className="text-xs text-text-muted italic py-6 text-center">No explicit gaps found for this scope.</p>
-              )}
-            </div>
-          </div>
-
-          {/* Proposed Future Directions */}
-          <div className="bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm flex flex-col space-y-4">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-border-subtle">
-              <div className="p-2 rounded-lg bg-status-ready-bg text-status-ready-text">
-                <Lightbulb className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-sm text-text-primary">Proposed Research Directions</h3>
-                <span className="text-xs text-text-muted">High-impact novel experiments & methodologies</span>
-              </div>
+          {/* High-Level Overview Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-surface-card border border-border-subtle rounded-xl p-5 shadow-2xs">
+              <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2 mb-3">
+                <Compass className="w-4 h-4 text-primary-accent" />
+                Identified Literature Gaps
+              </h3>
+              <ul className="space-y-2.5">
+                {result.identified_gaps.map((gap, i) => (
+                  <li key={i} className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-status-failed-text mt-1.5 shrink-0" />
+                    <span>{gap}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="space-y-3 flex-1 overflow-y-auto">
-              {result.proposed_directions.map((direction, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-xl bg-surface-container-low border border-border-subtle hover:border-status-ready-border transition-colors flex items-start gap-3"
-                >
-                  <span className="w-5 h-5 rounded-full bg-status-ready-bg text-status-ready-text text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
-                  <p className="text-xs leading-relaxed text-text-primary font-medium">
-                    {direction}
-                  </p>
-                </div>
-              ))}
-              {result.proposed_directions.length === 0 && (
-                <p className="text-xs text-text-muted italic py-6 text-center">No explicit future directions proposed.</p>
-              )}
+            <div className="bg-surface-card border border-border-subtle rounded-xl p-5 shadow-2xs">
+              <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2 mb-3">
+                <Lightbulb className="w-4 h-4 text-status-ready-text" />
+                Proposed Future Directions
+              </h3>
+              <ul className="space-y-2.5">
+                {result.proposed_directions.map((dir, i) => (
+                  <li key={i} className="text-xs text-text-secondary leading-relaxed flex items-start gap-2">
+                    <ArrowRight className="w-3.5 h-3.5 text-status-ready-text mt-0.5 shrink-0" />
+                    <span>{dir}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       ) : (
-        <div className="bg-surface-card border border-border-subtle rounded-xl p-12 text-center text-text-muted shadow-sm">
-          <Sparkles className="w-10 h-10 mx-auto text-primary-accent/40 mb-3" />
-          <h3 className="font-bold text-sm text-text-primary">Ready to Discover Research Gaps</h3>
-          <p className="text-xs text-text-muted max-w-md mx-auto mt-1">
-            Click "Explore Research Gaps" to analyze your uploaded papers and generate a two-column synthesis of literature limitations and next-generation ideas.
+        <div className="py-20 text-center text-xs text-text-muted flex flex-col items-center justify-center">
+          <Compass className="w-10 h-10 stroke-1 mb-2 text-text-muted/60" />
+          <p className="font-medium text-text-primary mb-1">No Gap Analysis Performed Yet</p>
+          <p className="max-w-sm">
+            Enter an optional focus topic above or click "Analyze Gaps" to detect unexplored research frontiers across your uploaded manuscripts.
           </p>
         </div>
       )}
