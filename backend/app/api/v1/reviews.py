@@ -98,7 +98,7 @@ async def get_comparative_matrix(
 
     for paper in papers:
         # Fetch active version and metadata
-        v_stmt = select(PaperVersion).where(PaperVersion.paper_id == paper.id).order_by(PaperVersion.created_at.desc()).limit(1)
+        v_stmt = select(PaperVersion).where(PaperVersion.paper_id == paper.id).order_by(PaperVersion.uploaded_at.desc()).limit(1)
         v_res = await db.execute(v_stmt)
         version = v_res.scalar_one_or_none()
 

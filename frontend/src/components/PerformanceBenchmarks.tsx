@@ -385,3 +385,4 @@ export const PerformanceBenchmarks: React.FC<PerformanceBenchmarksProps> = ({ pr
     </div>
   );
 };
+

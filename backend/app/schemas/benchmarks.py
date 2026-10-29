@@ -48,3 +48,4 @@ class BenchmarkOverviewResponse(BaseModel):
     metrics: List[str]
     groups: List[BenchmarkGroup]
     latex_benchmark_table: str
+

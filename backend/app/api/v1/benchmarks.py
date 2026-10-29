@@ -63,7 +63,7 @@ async def get_project_benchmarks(
         v_stmt = (
             select(PaperVersion)
             .where(PaperVersion.paper_id == paper.id)
-            .order_by(PaperVersion.created_at.desc())
+            .order_by(PaperVersion.uploaded_at.desc())
             .limit(1)
         )
         version = (await db.execute(v_stmt)).scalar_one_or_none()
@@ -196,3 +196,4 @@ async def get_project_benchmarks(
         groups=groups,
         latex_benchmark_table=latex_table
     )
+
